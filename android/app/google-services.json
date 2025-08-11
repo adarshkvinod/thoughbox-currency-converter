@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1067983077525",
+    "project_id": "thoughtbox-currency-converter",
+    "storage_bucket": "thoughtbox-currency-converter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067983077525:android:de10b3db594f7085de1b9c",
+        "android_client_info": {
+          "package_name": "com.app.bylukz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe0rkXdhC3vOk3bH3BNz9vDiG_gQvWa8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067983077525:android:a4afb3785dcf6bf6de1b9c",
+        "android_client_info": {
+          "package_name": "com.example.thoughbox_currency_converter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe0rkXdhC3vOk3bH3BNz9vDiG_gQvWa8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
