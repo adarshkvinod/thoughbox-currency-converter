@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thoughbox_currency_converter/app/router/route_constants.dart';
 
+import '../../src/presentation/screens/login_screen/login_screen.dart';
 import '../../src/presentation/screens/splash_screen/splash_screen.dart';
 
 class AppRouter {
@@ -9,6 +10,10 @@ class AppRouter {
       case RouterConstants.splashRoute:
         return MaterialPageRoute<SplashScreen>(
           builder: (context) => const SplashScreen(),
+        );
+      case RouterConstants.loginRoute:
+        return MaterialPageRoute<LoginScreen>(
+          builder: (context) => const LoginScreen(),
         );
     }
     return MaterialPageRoute<Scaffold>(
