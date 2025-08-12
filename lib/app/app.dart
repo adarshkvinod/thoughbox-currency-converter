@@ -6,6 +6,8 @@ import 'package:thoughbox_currency_converter/app/providers/providers.dart';
 import 'package:thoughbox_currency_converter/app/router/route_constants.dart';
 import 'package:thoughbox_currency_converter/app/router/router.dart';
 
+import '../src/presentation/core/constants/app_colors.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -23,8 +25,10 @@ class MyApp extends StatelessWidget {
         return MultiBlocProvider(
           providers: kBlocProviders,
           child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Currency Converter',
             theme: ThemeData(
+              scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
             initialRoute: RouterConstants.splashRoute,
