@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
+import 'package:thoughbox_currency_converter/src/presentation/core/widgets/shimmer_placeholder.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_images.dart';
 
 class CurrencyConverterWidget extends StatefulWidget {
+  final bool isLoading;
   final void Function(String pair)? onPairChanged;
 
-  const CurrencyConverterWidget({super.key, this.onPairChanged});
+  const CurrencyConverterWidget({
+    super.key,
+    this.onPairChanged,
+     this.isLoading = false,
+  });
 
   @override
   _CurrencyConverterWidgetState createState() =>
@@ -34,7 +40,6 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
     {'flag': '🇸🇬', 'code': 'SGD'}, // Singapore Dollar
     {'flag': '🇲🇽', 'code': 'MXN'}, // Mexican Peso
   ];
-
 
   late Map<String, String> selectedFrom;
   late Map<String, String> selectedTo;
@@ -73,15 +78,19 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
       duration: const Duration(milliseconds: 250),
       vsync: this,
     );
-    _fromAnimation =
-        CurvedAnimation(parent: _fromAnimationController, curve: Curves.easeInOut);
+    _fromAnimation = CurvedAnimation(
+      parent: _fromAnimationController,
+      curve: Curves.easeInOut,
+    );
 
     _toAnimationController = AnimationController(
       duration: const Duration(milliseconds: 250),
       vsync: this,
     );
-    _toAnimation =
-        CurvedAnimation(parent: _toAnimationController, curve: Curves.easeInOut);
+    _toAnimation = CurvedAnimation(
+      parent: _toAnimationController,
+      curve: Curves.easeInOut,
+    );
 
     // Rotation controller for swap icon
     _rotationController = AnimationController(
@@ -139,10 +148,12 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
     final GlobalKey key = isFrom ? _fromKey : _toKey;
     final selected = isFrom ? selectedFrom : selectedTo;
     final Animation<double> animation = isFrom ? _fromAnimation : _toAnimation;
-    final AnimationController controller =
-    isFrom ? _fromAnimationController : _toAnimationController;
+    final AnimationController controller = isFrom
+        ? _fromAnimationController
+        : _toAnimationController;
 
-    final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox renderBox =
+        key.currentContext!.findRenderObject() as RenderBox;
     final Offset position = renderBox.localToGlobal(Offset.zero);
     final double width = renderBox.size.width;
     final double height = renderBox.size.height;
@@ -188,8 +199,9 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
   }
 
   void _hideOverlay(bool isFrom) {
-    final controller =
-    isFrom ? _fromAnimationController : _toAnimationController;
+    final controller = isFrom
+        ? _fromAnimationController
+        : _toAnimationController;
     controller.reverse().then((_) {
       if (isFrom) {
         _removeOverlay(_overlayFrom);
@@ -209,9 +221,9 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
   }
 
   Widget _buildDropdownList(
-      Map<String, String>? selected,
-      ValueChanged<Map<String, String>> onSelected,
-      ) {
+    Map<String, String>? selected,
+    ValueChanged<Map<String, String>> onSelected,
+  ) {
     return Container(
       height: _dropdownHeight.dp,
       margin: EdgeInsets.only(top: 8.dp),
@@ -225,7 +237,10 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
         children: countries.map((country) {
           final isSelected = country == selected;
           return ListTile(
-            leading: Text(country['flag']!, style: const TextStyle(fontSize: 24)),
+            leading: Text(
+              country['flag']!,
+              style: const TextStyle(fontSize: 24),
+            ),
             title: Text(
               country['code']!,
               style: TextStyle(
@@ -242,10 +257,10 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
   }
 
   Widget _buildDropdownButton(
-      Map<String, String>? selected,
-      VoidCallback onTap,
-      GlobalKey key,
-      ) {
+    Map<String, String>? selected,
+    VoidCallback onTap,
+    GlobalKey key,
+  ) {
     return CompositedTransformTarget(
       link: (key == _fromKey) ? _fromLayerLink : _toLayerLink,
       child: GestureDetector(
@@ -262,7 +277,10 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(selected?['flag'] ?? '', style: const TextStyle(fontSize: 24)),
+              Text(
+                selected?['flag'] ?? '',
+                style: const TextStyle(fontSize: 24),
+              ),
               Gap(4.dp),
               Text(
                 selected?['code'] ?? '',
@@ -274,34 +292,6 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildCurrencyInput(TextEditingController controller) {
-    return TextField(
-      controller: controller,
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      style: const TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: const Color(0xFF292929),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade700),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade700),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.blueAccent),
-        ),
-        hintText: 'Enter amount',
-        hintStyle: TextStyle(color: Colors.grey.shade400),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      ),
-      cursorColor: Colors.blueAccent,
     );
   }
 
@@ -335,51 +325,86 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
         ),
         child: Column(
           children: [
-            Row(
-              children: [
-                // Left dropdown + input
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildDropdownButton(selectedFrom, _toggleFromDropdown, _fromKey),
-                    ],
-                  ),
-                ),
-
-                // Swap button with rotation animation
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 2.dp),
-                  child: IconButton(
-                    iconSize: 30.dp,
-                    onPressed: () {
-                      swapCountries();
-                      _rotationController.forward(from: 0);
-                    },
-                    icon: RotationTransition(
-                      turns: _rotationAnimation,
-                      child: Image.asset(
-                        AppImages.swapIcon,
-                        height: 30.dp,
-                        color: AppColors.textColorGrey,
-                      ),
+            widget.isLoading
+                ? ShimmerPlaceholder(
+                  child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 60.dp,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.dp),
+                            ),
+                          ),
+                        ),
+                        Gap(24.dp),
+                        Expanded(
+                          child: Container(
+                            height: 60.dp,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.dp),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-
-                // Right dropdown + input
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                )
+                :
+            Row(
                     children: [
-                      _buildDropdownButton(selectedTo, _toggleToDropdown, _toKey),
-                      // const SizedBox(height: 12),
-                      // buildCurrencyInput(toController),
+                      // Left dropdown + input
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildDropdownButton(
+                              selectedFrom,
+                              _toggleFromDropdown,
+                              _fromKey,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Swap button with rotation animation
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 2.dp),
+                        child: IconButton(
+                          iconSize: 30.dp,
+                          onPressed: () {
+                            swapCountries();
+                            _rotationController.forward(from: 0);
+                          },
+                          icon: RotationTransition(
+                            turns: _rotationAnimation,
+                            child: Image.asset(
+                              AppImages.swapIcon,
+                              height: 30.dp,
+                              color: AppColors.textColorGrey,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Right dropdown + input
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildDropdownButton(
+                              selectedTo,
+                              _toggleToDropdown,
+                              _toKey,
+                            ),
+                            // const SizedBox(height: 12),
+                            // buildCurrencyInput(toController),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
-            ),
           ],
         ),
       ),

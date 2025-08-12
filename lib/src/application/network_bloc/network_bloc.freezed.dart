@@ -12,7 +12,8 @@ part of 'network_bloc.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$NetworkState {
@@ -22,16 +23,14 @@ mixin _$NetworkState {
     required TResult Function() success,
     required TResult Function() failure,
     required TResult Function() loading,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? success,
     TResult? Function()? failure,
     TResult? Function()? loading,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
@@ -39,24 +38,21 @@ mixin _$NetworkState {
     TResult Function()? failure,
     TResult Function()? loading,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
     required TResult Function(_Loading value) loading,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
     TResult? Function(_Loading value)? loading,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
@@ -64,15 +60,15 @@ mixin _$NetworkState {
     TResult Function(_Failure value)? failure,
     TResult Function(_Loading value)? loading,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $NetworkStateCopyWith<$Res> {
   factory $NetworkStateCopyWith(
-          NetworkState value, $Res Function(NetworkState) then) =
-      _$NetworkStateCopyWithImpl<$Res, NetworkState>;
+    NetworkState value,
+    $Res Function(NetworkState) then,
+  ) = _$NetworkStateCopyWithImpl<$Res, NetworkState>;
 }
 
 /// @nodoc
@@ -92,8 +88,9 @@ class _$NetworkStateCopyWithImpl<$Res, $Val extends NetworkState>
 /// @nodoc
 abstract class _$$InitialImplCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
-          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
-      __$$InitialImplCopyWithImpl<$Res>;
+    _$InitialImpl value,
+    $Res Function(_$InitialImpl) then,
+  ) = __$$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -101,8 +98,9 @@ class __$$InitialImplCopyWithImpl<$Res>
     extends _$NetworkStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
-      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
-      : super(_value, _then);
+    _$InitialImpl _value,
+    $Res Function(_$InitialImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of NetworkState
   /// with the given fields replaced by the non-null parameter values.
@@ -209,8 +207,9 @@ abstract class _Initial implements NetworkState {
 /// @nodoc
 abstract class _$$SuccessImplCopyWith<$Res> {
   factory _$$SuccessImplCopyWith(
-          _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
-      __$$SuccessImplCopyWithImpl<$Res>;
+    _$SuccessImpl value,
+    $Res Function(_$SuccessImpl) then,
+  ) = __$$SuccessImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -218,8 +217,9 @@ class __$$SuccessImplCopyWithImpl<$Res>
     extends _$NetworkStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
-      _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
-      : super(_value, _then);
+    _$SuccessImpl _value,
+    $Res Function(_$SuccessImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of NetworkState
   /// with the given fields replaced by the non-null parameter values.
@@ -326,8 +326,9 @@ abstract class _Success implements NetworkState {
 /// @nodoc
 abstract class _$$FailureImplCopyWith<$Res> {
   factory _$$FailureImplCopyWith(
-          _$FailureImpl value, $Res Function(_$FailureImpl) then) =
-      __$$FailureImplCopyWithImpl<$Res>;
+    _$FailureImpl value,
+    $Res Function(_$FailureImpl) then,
+  ) = __$$FailureImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -335,8 +336,9 @@ class __$$FailureImplCopyWithImpl<$Res>
     extends _$NetworkStateCopyWithImpl<$Res, _$FailureImpl>
     implements _$$FailureImplCopyWith<$Res> {
   __$$FailureImplCopyWithImpl(
-      _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
-      : super(_value, _then);
+    _$FailureImpl _value,
+    $Res Function(_$FailureImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of NetworkState
   /// with the given fields replaced by the non-null parameter values.
@@ -443,8 +445,9 @@ abstract class _Failure implements NetworkState {
 /// @nodoc
 abstract class _$$LoadingImplCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
-          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
-      __$$LoadingImplCopyWithImpl<$Res>;
+    _$LoadingImpl value,
+    $Res Function(_$LoadingImpl) then,
+  ) = __$$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -452,8 +455,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
     extends _$NetworkStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
-      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
-      : super(_value, _then);
+    _$LoadingImpl _value,
+    $Res Function(_$LoadingImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of NetworkState
   /// with the given fields replaced by the non-null parameter values.
@@ -563,47 +567,42 @@ mixin _$NetworkEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() observe,
     required TResult Function(bool isConnected) notify,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? observe,
     TResult? Function(bool isConnected)? notify,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? observe,
     TResult Function(bool isConnected)? notify,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Observe value) observe,
     required TResult Function(_Notify value) notify,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Observe value)? observe,
     TResult? Function(_Notify value)? notify,
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Observe value)? observe,
     TResult Function(_Notify value)? notify,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $NetworkEventCopyWith<$Res> {
   factory $NetworkEventCopyWith(
-          NetworkEvent value, $Res Function(NetworkEvent) then) =
-      _$NetworkEventCopyWithImpl<$Res, NetworkEvent>;
+    NetworkEvent value,
+    $Res Function(NetworkEvent) then,
+  ) = _$NetworkEventCopyWithImpl<$Res, NetworkEvent>;
 }
 
 /// @nodoc
@@ -623,8 +622,9 @@ class _$NetworkEventCopyWithImpl<$Res, $Val extends NetworkEvent>
 /// @nodoc
 abstract class _$$ObserveImplCopyWith<$Res> {
   factory _$$ObserveImplCopyWith(
-          _$ObserveImpl value, $Res Function(_$ObserveImpl) then) =
-      __$$ObserveImplCopyWithImpl<$Res>;
+    _$ObserveImpl value,
+    $Res Function(_$ObserveImpl) then,
+  ) = __$$ObserveImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
@@ -632,8 +632,9 @@ class __$$ObserveImplCopyWithImpl<$Res>
     extends _$NetworkEventCopyWithImpl<$Res, _$ObserveImpl>
     implements _$$ObserveImplCopyWith<$Res> {
   __$$ObserveImplCopyWithImpl(
-      _$ObserveImpl _value, $Res Function(_$ObserveImpl) _then)
-      : super(_value, _then);
+    _$ObserveImpl _value,
+    $Res Function(_$ObserveImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of NetworkEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -728,8 +729,9 @@ abstract class _Observe implements NetworkEvent {
 /// @nodoc
 abstract class _$$NotifyImplCopyWith<$Res> {
   factory _$$NotifyImplCopyWith(
-          _$NotifyImpl value, $Res Function(_$NotifyImpl) then) =
-      __$$NotifyImplCopyWithImpl<$Res>;
+    _$NotifyImpl value,
+    $Res Function(_$NotifyImpl) then,
+  ) = __$$NotifyImplCopyWithImpl<$Res>;
   @useResult
   $Res call({bool isConnected});
 }
@@ -739,22 +741,23 @@ class __$$NotifyImplCopyWithImpl<$Res>
     extends _$NetworkEventCopyWithImpl<$Res, _$NotifyImpl>
     implements _$$NotifyImplCopyWith<$Res> {
   __$$NotifyImplCopyWithImpl(
-      _$NotifyImpl _value, $Res Function(_$NotifyImpl) _then)
-      : super(_value, _then);
+    _$NotifyImpl _value,
+    $Res Function(_$NotifyImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of NetworkEvent
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? isConnected = null,
-  }) {
-    return _then(_$NotifyImpl(
-      null == isConnected
-          ? _value.isConnected
-          : isConnected // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+  $Res call({Object? isConnected = null}) {
+    return _then(
+      _$NotifyImpl(
+        null == isConnected
+            ? _value.isConnected
+            : isConnected // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
   }
 }
 

@@ -6,3 +6,4 @@ class AppColors{
   static const Color primaryColor = Color(0xFF72D553);
   static const Color borderColor = Color(0xFF525252);
 }
+
