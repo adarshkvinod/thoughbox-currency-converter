@@ -46,6 +46,8 @@ dependencies:
   get_it: ^8.2.0
   injectable: ^2.1.0
   injectable_generator: ^2.4.1
+  another_flushbar: ^1.12.30
+  google_fonts: ^6.3.0
 
 dev_dependencies:
   flutter_test:

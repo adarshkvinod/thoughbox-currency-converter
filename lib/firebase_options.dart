@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBe0rkXdhC3vOk3bH3BNz9vDiG_gQvWa8M',
-    appId: '1:1067983077525:android:a4afb3785dcf6bf6de1b9c',
-    messagingSenderId: '1067983077525',
-    projectId: 'thoughtbox-currency-converter',
-    storageBucket: 'thoughtbox-currency-converter.firebasestorage.app',
+    apiKey: 'AIzaSyA8R36KHq-ewNWPI8wdbzD0IS7j-DJaW9A',
+    appId: '1:770366764018:android:bd1ac6374322962e8cf16b',
+    messagingSenderId: '770366764018',
+    projectId: 'thoughtbox-currency-conv-a309f',
+    storageBucket: 'thoughtbox-currency-conv-a309f.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCK89N5Qgo4k19gcZo8FmqcQOxPhTp9-x0',
-    appId: '1:1067983077525:ios:e2bd0fc5045d7aecde1b9c',
-    messagingSenderId: '1067983077525',
-    projectId: 'thoughtbox-currency-converter',
-    storageBucket: 'thoughtbox-currency-converter.firebasestorage.app',
+    apiKey: 'AIzaSyBdYy09aniaWAmHqKx-UawwFpzU6F4rfWc',
+    appId: '1:770366764018:ios:c39cae192160e72f8cf16b',
+    messagingSenderId: '770366764018',
+    projectId: 'thoughtbox-currency-conv-a309f',
+    storageBucket: 'thoughtbox-currency-conv-a309f.firebasestorage.app',
     iosBundleId: 'com.example.thoughboxCurrencyConverter',
   );
+
 }
