@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
+import 'package:thoughbox_currency_converter/app/constants/status/status.dart';
 import 'package:thoughbox_currency_converter/app/router/route_constants.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_colors.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_images.dart';
@@ -25,7 +26,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  ValueNotifier<String> currencyPairListener = ValueNotifier('');
+  ValueNotifier<String> currencyFromListener = ValueNotifier('');
+  ValueNotifier<String> currencyToListener = ValueNotifier('');
+  ValueNotifier<double> amountListener = ValueNotifier(0);
 
   late AnimationController _mainController;
   late AnimationController _staggerController;
@@ -165,14 +168,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  String? validateAmount(String? value, {double max = 100000}) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter an amount';
+    }
+
+    final num? amount = num.tryParse(value);
+    if (amount == null) {
+      return 'Enter a valid number';
+    }
+
+    if (amount <= 0) {
+      return 'Amount must be positive';
+    }
+
+    if (amount >= max) {
+      return 'Amount must be less than $max';
+    }
+
+    return null; // Valid input
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
       return Scaffold(
-        body: ScreenBackground(
-
-          child: Center(child: _buildLoadingIndicator()),
-        ),
+        body: ScreenBackground(child: Center(child: _buildLoadingIndicator())),
       );
     }
 
@@ -188,111 +209,157 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           );
         },
-        child: AnimatedBuilder(
-          animation: _mainController,
-          builder: (context, child) {
-            return FadeTransition(
-              opacity: _fadeAnimation,
-              child: SlideTransition(
-                position: _slideAnimation,
-                child: ScaleTransition(
-                  scale: _scaleAnimation,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.dp),
-                    child: SingleChildScrollView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(minHeight: 86.h),
-                        child: IntrinsicHeight(
-                          child: ValueListenableBuilder(
-                            valueListenable: currencyPairListener,
-                            builder: (context, value, child) => Column(
-                              children: [
-                                Gap(24.dp),
-                                AnimatedBuilder(
-                                  animation: _staggerController,
-                                  builder: (context, child) {
-                                    return FadeTransition(
-                                      opacity: _converterFadeAnimation,
-                                      child: SlideTransition(
-                                        position: _converterSlideAnimation,
-                                        child:
-                                            BlocBuilder<
-                                              CurrencyBloc,
-                                              CurrencyState
-                                            >(
-                                              builder: (context, state) {
-                                                return CurrencyConverterWidget(
-                                                  onPairChanged: (pair) {
-                                                    currencyPairListener.value =
-                                                        pair.toString();
-                                                    log(pair.toString());
-                                                  },
-                                                );
-                                              },
+        child: BlocBuilder<CurrencyBloc, CurrencyState>(
+          builder: (context, state) {
+            log(state.conversionResult.toString(),name: "CONVERSION RESULT");
+            return AnimatedBuilder(
+              animation: _mainController,
+              builder: (context, child) {
+                return FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: ScaleTransition(
+                      scale: _scaleAnimation,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.dp),
+                        child: SingleChildScrollView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(minHeight: 86.h),
+                            child: IntrinsicHeight(
+                              child: ValueListenableBuilder(
+                                valueListenable: currencyToListener,
+                                builder: (context, to, child) => ValueListenableBuilder(
+                                  valueListenable: currencyFromListener,
+                                  builder: (context, from, child) => Column(
+                                    children: [
+                                      Gap(24.dp),
+                                      AnimatedBuilder(
+                                        animation: _staggerController,
+                                        builder: (context, child) {
+                                          return FadeTransition(
+                                            opacity: _converterFadeAnimation,
+                                            child: SlideTransition(
+                                              position:
+                                                  _converterSlideAnimation,
+                                              child:
+                                                  BlocBuilder<
+                                                    CurrencyBloc,
+                                                    CurrencyState
+                                                  >(
+                                                    builder: (context, state) {
+                                                      return CurrencyConverterWidget(
+                                                        onPairChanged:
+                                                            (from, to) {
+                                                              currencyFromListener
+                                                                  .value = from
+                                                                  .toString();
+                                                              currencyToListener
+                                                                  .value = to
+                                                                  .toString();
+                                                            },
+                                                      );
+                                                    },
+                                                  ),
                                             ),
+                                          );
+                                        },
                                       ),
-                                    );
-                                  },
-                                ),
-                                Gap(24.dp),
-                                AnimatedBuilder(
-                                  animation: _staggerController,
-                                  builder: (context, child) {
-                                    return FadeTransition(
-                                      opacity: _textFieldFadeAnimation,
-                                      child: SlideTransition(
-                                        position: _textFieldSlideAnimation,
-                                        child: AmountTextField(
-                                          currencyPair: value,
-                                        ),
+                                      Gap(24.dp),
+                                      AnimatedBuilder(
+                                        animation: _staggerController,
+                                        builder: (context, child) {
+                                          return FadeTransition(
+                                            opacity: _textFieldFadeAnimation,
+                                            child: SlideTransition(
+                                              position:
+                                                  _textFieldSlideAnimation,
+                                              child: AmountTextField(
+                                                fromCurrency: from,
+                                                onChanged: (value) {
+                                                  amountListener.value =
+                                                      double.tryParse(value) ??
+                                                      0;
+                                                },
+                                                validator: (value) =>
+                                                    validateAmount(
+                                                      value,
+                                                      max: 100000,
+                                                    ),
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    );
-                                  },
-                                ),
-                                Gap(16.dp),
-                                AnimatedBuilder(
-                                  animation: _staggerController,
-                                  builder: (context, child) {
-                                    return FadeTransition(
-                                      opacity: _resultFadeAnimation,
-                                      child: SlideTransition(
-                                        position: _resultSlideAnimation,
-                                        child: ConversionResultWidget(),
+                                      Gap(16.dp),
+                                      AnimatedBuilder(
+                                        animation: _staggerController,
+                                        builder: (context, child) {
+                                          return FadeTransition(
+                                            opacity: _resultFadeAnimation,
+                                            child: SlideTransition(
+                                              position: _resultSlideAnimation,
+                                              child: ConversionResultWidget(),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    );
-                                  },
-                                ),
-                                const Spacer(),
-                                AnimatedBuilder(
-                                  animation: _staggerController,
-                                  builder: (context, child) {
-                                    return FadeTransition(
-                                      opacity: _buttonFadeAnimation,
-                                      child: ScaleTransition(
-                                        scale: _buttonScaleAnimation,
-                                        child: PrimaryButton(
-                                          icon: Image.asset(
-                                            AppImages.convertIcon,
-                                            height: 24.dp,
-                                            color: Colors.white,
-                                          ),
-                                          title: 'Convert',
-                                        ),
+                                      const Spacer(),
+                                      AnimatedBuilder(
+                                        animation: _staggerController,
+                                        builder: (context, child) {
+                                          return FadeTransition(
+                                            opacity: _buttonFadeAnimation,
+                                            child: ScaleTransition(
+                                              scale: _buttonScaleAnimation,
+                                              child: ValueListenableBuilder(
+                                                valueListenable: amountListener,
+                                                builder:
+                                                    (
+                                                      context,
+                                                      amount,
+                                                      child,
+                                                    ) => PrimaryButton(
+                                                      isLoading: state.getConversionResultStatus is StatusLoading,
+                                                      onPressed: () {
+                                                        context
+                                                            .read<
+                                                              CurrencyBloc
+                                                            >()
+                                                            .add(
+                                                              CurrencyEvent.getConversionResult(
+                                                                from: from,
+                                                                to: to,
+                                                                amount: amount,
+                                                              ),
+                                                            );
+                                                      },
+                                                      icon: Image.asset(
+                                                        AppImages.convertIcon,
+                                                        height: 24.dp,
+                                                        color: Colors.white,
+                                                      ),
+                                                      title: 'Convert',
+                                                    ),
+                                              ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    );
-                                  },
+                                      Gap(24.dp),
+                                    ],
+                                  ),
                                 ),
-                                Gap(24.dp),
-                              ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             );
           },
         ),

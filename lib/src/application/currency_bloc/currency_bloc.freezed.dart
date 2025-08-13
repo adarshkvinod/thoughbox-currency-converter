@@ -17,31 +17,36 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CurrencyEvent {
-  String get pair => throw _privateConstructorUsedError;
+  String get from => throw _privateConstructorUsedError;
+  String get to => throw _privateConstructorUsedError;
+  double get amount => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String pair) getLiveRate,
+    required TResult Function(String from, String to, double amount)
+    getConversionResult,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pair)? getLiveRate,
+    TResult? Function(String from, String to, double amount)?
+    getConversionResult,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pair)? getLiveRate,
+    TResult Function(String from, String to, double amount)?
+    getConversionResult,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GetLiveRate value) getLiveRate,
+    required TResult Function(_GetConversionResult value) getConversionResult,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetLiveRate value)? getLiveRate,
+    TResult? Function(_GetConversionResult value)? getConversionResult,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetLiveRate value)? getLiveRate,
+    TResult Function(_GetConversionResult value)? getConversionResult,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 
@@ -59,7 +64,7 @@ abstract class $CurrencyEventCopyWith<$Res> {
     $Res Function(CurrencyEvent) then,
   ) = _$CurrencyEventCopyWithImpl<$Res, CurrencyEvent>;
   @useResult
-  $Res call({String pair});
+  $Res call({String from, String to, double amount});
 }
 
 /// @nodoc
@@ -76,13 +81,21 @@ class _$CurrencyEventCopyWithImpl<$Res, $Val extends CurrencyEvent>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? pair = null}) {
+  $Res call({Object? from = null, Object? to = null, Object? amount = null}) {
     return _then(
       _value.copyWith(
-            pair: null == pair
-                ? _value.pair
-                : pair // ignore: cast_nullable_to_non_nullable
+            from: null == from
+                ? _value.from
+                : from // ignore: cast_nullable_to_non_nullable
                       as String,
+            to: null == to
+                ? _value.to
+                : to // ignore: cast_nullable_to_non_nullable
+                      as String,
+            amount: null == amount
+                ? _value.amount
+                : amount // ignore: cast_nullable_to_non_nullable
+                      as double,
           )
           as $Val,
     );
@@ -90,37 +103,45 @@ class _$CurrencyEventCopyWithImpl<$Res, $Val extends CurrencyEvent>
 }
 
 /// @nodoc
-abstract class _$$GetLiveRateImplCopyWith<$Res>
+abstract class _$$GetConversionResultImplCopyWith<$Res>
     implements $CurrencyEventCopyWith<$Res> {
-  factory _$$GetLiveRateImplCopyWith(
-    _$GetLiveRateImpl value,
-    $Res Function(_$GetLiveRateImpl) then,
-  ) = __$$GetLiveRateImplCopyWithImpl<$Res>;
+  factory _$$GetConversionResultImplCopyWith(
+    _$GetConversionResultImpl value,
+    $Res Function(_$GetConversionResultImpl) then,
+  ) = __$$GetConversionResultImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String pair});
+  $Res call({String from, String to, double amount});
 }
 
 /// @nodoc
-class __$$GetLiveRateImplCopyWithImpl<$Res>
-    extends _$CurrencyEventCopyWithImpl<$Res, _$GetLiveRateImpl>
-    implements _$$GetLiveRateImplCopyWith<$Res> {
-  __$$GetLiveRateImplCopyWithImpl(
-    _$GetLiveRateImpl _value,
-    $Res Function(_$GetLiveRateImpl) _then,
+class __$$GetConversionResultImplCopyWithImpl<$Res>
+    extends _$CurrencyEventCopyWithImpl<$Res, _$GetConversionResultImpl>
+    implements _$$GetConversionResultImplCopyWith<$Res> {
+  __$$GetConversionResultImplCopyWithImpl(
+    _$GetConversionResultImpl _value,
+    $Res Function(_$GetConversionResultImpl) _then,
   ) : super(_value, _then);
 
   /// Create a copy of CurrencyEvent
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? pair = null}) {
+  $Res call({Object? from = null, Object? to = null, Object? amount = null}) {
     return _then(
-      _$GetLiveRateImpl(
-        pair: null == pair
-            ? _value.pair
-            : pair // ignore: cast_nullable_to_non_nullable
+      _$GetConversionResultImpl(
+        from: null == from
+            ? _value.from
+            : from // ignore: cast_nullable_to_non_nullable
                   as String,
+        to: null == to
+            ? _value.to
+            : to // ignore: cast_nullable_to_non_nullable
+                  as String,
+        amount: null == amount
+            ? _value.amount
+            : amount // ignore: cast_nullable_to_non_nullable
+                  as double,
       ),
     );
   }
@@ -128,60 +149,76 @@ class __$$GetLiveRateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetLiveRateImpl implements _GetLiveRate {
-  _$GetLiveRateImpl({required this.pair});
+class _$GetConversionResultImpl implements _GetConversionResult {
+  _$GetConversionResultImpl({
+    required this.from,
+    required this.to,
+    required this.amount,
+  });
 
   @override
-  final String pair;
+  final String from;
+  @override
+  final String to;
+  @override
+  final double amount;
 
   @override
   String toString() {
-    return 'CurrencyEvent.getLiveRate(pair: $pair)';
+    return 'CurrencyEvent.getConversionResult(from: $from, to: $to, amount: $amount)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GetLiveRateImpl &&
-            (identical(other.pair, pair) || other.pair == pair));
+            other is _$GetConversionResultImpl &&
+            (identical(other.from, from) || other.from == from) &&
+            (identical(other.to, to) || other.to == to) &&
+            (identical(other.amount, amount) || other.amount == amount));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, pair);
+  int get hashCode => Object.hash(runtimeType, from, to, amount);
 
   /// Create a copy of CurrencyEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$GetLiveRateImplCopyWith<_$GetLiveRateImpl> get copyWith =>
-      __$$GetLiveRateImplCopyWithImpl<_$GetLiveRateImpl>(this, _$identity);
+  _$$GetConversionResultImplCopyWith<_$GetConversionResultImpl> get copyWith =>
+      __$$GetConversionResultImplCopyWithImpl<_$GetConversionResultImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String pair) getLiveRate,
+    required TResult Function(String from, String to, double amount)
+    getConversionResult,
   }) {
-    return getLiveRate(pair);
+    return getConversionResult(from, to, amount);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String pair)? getLiveRate,
+    TResult? Function(String from, String to, double amount)?
+    getConversionResult,
   }) {
-    return getLiveRate?.call(pair);
+    return getConversionResult?.call(from, to, amount);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String pair)? getLiveRate,
+    TResult Function(String from, String to, double amount)?
+    getConversionResult,
     required TResult orElse(),
   }) {
-    if (getLiveRate != null) {
-      return getLiveRate(pair);
+    if (getConversionResult != null) {
+      return getConversionResult(from, to, amount);
     }
     return orElse();
   }
@@ -189,51 +226,59 @@ class _$GetLiveRateImpl implements _GetLiveRate {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GetLiveRate value) getLiveRate,
+    required TResult Function(_GetConversionResult value) getConversionResult,
   }) {
-    return getLiveRate(this);
+    return getConversionResult(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GetLiveRate value)? getLiveRate,
+    TResult? Function(_GetConversionResult value)? getConversionResult,
   }) {
-    return getLiveRate?.call(this);
+    return getConversionResult?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GetLiveRate value)? getLiveRate,
+    TResult Function(_GetConversionResult value)? getConversionResult,
     required TResult orElse(),
   }) {
-    if (getLiveRate != null) {
-      return getLiveRate(this);
+    if (getConversionResult != null) {
+      return getConversionResult(this);
     }
     return orElse();
   }
 }
 
-abstract class _GetLiveRate implements CurrencyEvent {
-  factory _GetLiveRate({required final String pair}) = _$GetLiveRateImpl;
+abstract class _GetConversionResult implements CurrencyEvent {
+  factory _GetConversionResult({
+    required final String from,
+    required final String to,
+    required final double amount,
+  }) = _$GetConversionResultImpl;
 
   @override
-  String get pair;
+  String get from;
+  @override
+  String get to;
+  @override
+  double get amount;
 
   /// Create a copy of CurrencyEvent
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GetLiveRateImplCopyWith<_$GetLiveRateImpl> get copyWith =>
+  _$$GetConversionResultImplCopyWith<_$GetConversionResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 mixin _$CurrencyState {
-  // required Status getSupportedPairStatus,
-  // required SupportedPairsModel supportedCurrencyPairs,
-  Status get getLiveRateStatus => throw _privateConstructorUsedError;
+  Status get getConversionResultStatus => throw _privateConstructorUsedError;
+  ConversionResultModel get conversionResult =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of CurrencyState
   /// with the given fields replaced by the non-null parameter values.
@@ -249,9 +294,13 @@ abstract class $CurrencyStateCopyWith<$Res> {
     $Res Function(CurrencyState) then,
   ) = _$CurrencyStateCopyWithImpl<$Res, CurrencyState>;
   @useResult
-  $Res call({Status getLiveRateStatus});
+  $Res call({
+    Status getConversionResultStatus,
+    ConversionResultModel conversionResult,
+  });
 
-  $StatusCopyWith<$Res> get getLiveRateStatus;
+  $StatusCopyWith<$Res> get getConversionResultStatus;
+  $ConversionResultModelCopyWith<$Res> get conversionResult;
 }
 
 /// @nodoc
@@ -268,13 +317,20 @@ class _$CurrencyStateCopyWithImpl<$Res, $Val extends CurrencyState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? getLiveRateStatus = null}) {
+  $Res call({
+    Object? getConversionResultStatus = null,
+    Object? conversionResult = null,
+  }) {
     return _then(
       _value.copyWith(
-            getLiveRateStatus: null == getLiveRateStatus
-                ? _value.getLiveRateStatus
-                : getLiveRateStatus // ignore: cast_nullable_to_non_nullable
+            getConversionResultStatus: null == getConversionResultStatus
+                ? _value.getConversionResultStatus
+                : getConversionResultStatus // ignore: cast_nullable_to_non_nullable
                       as Status,
+            conversionResult: null == conversionResult
+                ? _value.conversionResult
+                : conversionResult // ignore: cast_nullable_to_non_nullable
+                      as ConversionResultModel,
           )
           as $Val,
     );
@@ -284,9 +340,21 @@ class _$CurrencyStateCopyWithImpl<$Res, $Val extends CurrencyState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $StatusCopyWith<$Res> get getLiveRateStatus {
-    return $StatusCopyWith<$Res>(_value.getLiveRateStatus, (value) {
-      return _then(_value.copyWith(getLiveRateStatus: value) as $Val);
+  $StatusCopyWith<$Res> get getConversionResultStatus {
+    return $StatusCopyWith<$Res>(_value.getConversionResultStatus, (value) {
+      return _then(_value.copyWith(getConversionResultStatus: value) as $Val);
+    });
+  }
+
+  /// Create a copy of CurrencyState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ConversionResultModelCopyWith<$Res> get conversionResult {
+    return $ConversionResultModelCopyWith<$Res>(_value.conversionResult, (
+      value,
+    ) {
+      return _then(_value.copyWith(conversionResult: value) as $Val);
     });
   }
 }
@@ -300,10 +368,15 @@ abstract class _$$CurrencyStateImplCopyWith<$Res>
   ) = __$$CurrencyStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Status getLiveRateStatus});
+  $Res call({
+    Status getConversionResultStatus,
+    ConversionResultModel conversionResult,
+  });
 
   @override
-  $StatusCopyWith<$Res> get getLiveRateStatus;
+  $StatusCopyWith<$Res> get getConversionResultStatus;
+  @override
+  $ConversionResultModelCopyWith<$Res> get conversionResult;
 }
 
 /// @nodoc
@@ -319,13 +392,20 @@ class __$$CurrencyStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? getLiveRateStatus = null}) {
+  $Res call({
+    Object? getConversionResultStatus = null,
+    Object? conversionResult = null,
+  }) {
     return _then(
       _$CurrencyStateImpl(
-        getLiveRateStatus: null == getLiveRateStatus
-            ? _value.getLiveRateStatus
-            : getLiveRateStatus // ignore: cast_nullable_to_non_nullable
+        getConversionResultStatus: null == getConversionResultStatus
+            ? _value.getConversionResultStatus
+            : getConversionResultStatus // ignore: cast_nullable_to_non_nullable
                   as Status,
+        conversionResult: null == conversionResult
+            ? _value.conversionResult
+            : conversionResult // ignore: cast_nullable_to_non_nullable
+                  as ConversionResultModel,
       ),
     );
   }
@@ -334,16 +414,19 @@ class __$$CurrencyStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CurrencyStateImpl implements _CurrencyState {
-  _$CurrencyStateImpl({required this.getLiveRateStatus});
+  _$CurrencyStateImpl({
+    required this.getConversionResultStatus,
+    required this.conversionResult,
+  });
 
-  // required Status getSupportedPairStatus,
-  // required SupportedPairsModel supportedCurrencyPairs,
   @override
-  final Status getLiveRateStatus;
+  final Status getConversionResultStatus;
+  @override
+  final ConversionResultModel conversionResult;
 
   @override
   String toString() {
-    return 'CurrencyState(getLiveRateStatus: $getLiveRateStatus)';
+    return 'CurrencyState(getConversionResultStatus: $getConversionResultStatus, conversionResult: $conversionResult)';
   }
 
   @override
@@ -351,12 +434,18 @@ class _$CurrencyStateImpl implements _CurrencyState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CurrencyStateImpl &&
-            (identical(other.getLiveRateStatus, getLiveRateStatus) ||
-                other.getLiveRateStatus == getLiveRateStatus));
+            (identical(
+                  other.getConversionResultStatus,
+                  getConversionResultStatus,
+                ) ||
+                other.getConversionResultStatus == getConversionResultStatus) &&
+            (identical(other.conversionResult, conversionResult) ||
+                other.conversionResult == conversionResult));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, getLiveRateStatus);
+  int get hashCode =>
+      Object.hash(runtimeType, getConversionResultStatus, conversionResult);
 
   /// Create a copy of CurrencyState
   /// with the given fields replaced by the non-null parameter values.
@@ -368,13 +457,15 @@ class _$CurrencyStateImpl implements _CurrencyState {
 }
 
 abstract class _CurrencyState implements CurrencyState {
-  factory _CurrencyState({required final Status getLiveRateStatus}) =
-      _$CurrencyStateImpl;
+  factory _CurrencyState({
+    required final Status getConversionResultStatus,
+    required final ConversionResultModel conversionResult,
+  }) = _$CurrencyStateImpl;
 
-  // required Status getSupportedPairStatus,
-  // required SupportedPairsModel supportedCurrencyPairs,
   @override
-  Status get getLiveRateStatus;
+  Status get getConversionResultStatus;
+  @override
+  ConversionResultModel get conversionResult;
 
   /// Create a copy of CurrencyState
   /// with the given fields replaced by the non-null parameter values.

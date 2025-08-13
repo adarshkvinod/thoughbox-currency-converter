@@ -5,15 +5,17 @@ import 'package:thoughbox_currency_converter/src/presentation/core/widgets/shimm
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_images.dart';
+import '../../../core/constants/app_typography.dart';
 
 class CurrencyConverterWidget extends StatefulWidget {
   final bool isLoading;
-  final void Function(String pair)? onPairChanged;
+  final void Function(String from, String to)? onPairChanged;
+
 
   const CurrencyConverterWidget({
     super.key,
     this.onPairChanged,
-     this.isLoading = false,
+    this.isLoading = false,
   });
 
   @override
@@ -215,8 +217,10 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
 
   void _notifyPairChanged() {
     if (widget.onPairChanged != null) {
-      final pair = '${selectedFrom['code']}${selectedTo['code']}';
-      widget.onPairChanged!(pair);
+      widget.onPairChanged!(
+        selectedFrom['code'] ?? '',
+        selectedTo['code'] ?? '',
+      );
     }
   }
 
@@ -267,11 +271,11 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
         onTap: onTap,
         child: Container(
           key: key,
-          width: 150.dp,
+          // width: 150.dp,
           padding: EdgeInsets.symmetric(horizontal: 12.dp, vertical: 8.dp),
           decoration: BoxDecoration(
             color: const Color(0xFF292929),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.dp),
             border: Border.all(color: Colors.grey.shade700),
           ),
           child: Row(
@@ -279,12 +283,18 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
             children: [
               Text(
                 selected?['flag'] ?? '',
-                style: const TextStyle(fontSize: 24),
+                style: AppTypography.bodyText.copyWith(
+                  fontSize: 24.sp,
+                  color: Colors.white,
+                ),
               ),
-              Gap(4.dp),
+              Gap(8.dp),
               Text(
                 selected?['code'] ?? '',
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style:  AppTypography.bodyText.copyWith(
+                  fontSize: 16.sp,
+                  color: Colors.white,
+                ),
               ),
               const Spacer(),
               const Icon(Icons.arrow_drop_down, color: Colors.white),
@@ -327,7 +337,7 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
           children: [
             widget.isLoading
                 ? ShimmerPlaceholder(
-                  child: Row(
+                    child: Row(
                       children: [
                         Expanded(
                           child: Container(
@@ -350,9 +360,8 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
                         ),
                       ],
                     ),
-                )
-                :
-            Row(
+                  )
+                : Row(
                     children: [
                       // Left dropdown + input
                       Expanded(
