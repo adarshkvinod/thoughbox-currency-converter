@@ -22,7 +22,9 @@ class ScreenBackground extends StatelessWidget {
     this.titleStyle,
     this.titleBottomPadding,
     this.titleTopPadding,
-    required this.child, this.onTapTrailingIcon, this.trailingIcon,
+    required this.child,
+    this.onTapTrailingIcon,
+    this.trailingIcon,
   });
 
   @override
@@ -36,34 +38,53 @@ class ScreenBackground extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Text(
-                title ?? AppStrings.appName,
-                style:
-                    titleStyle ??
-                    AppTypography.heading2.copyWith(
-                      color: AppColors.textColorGrey,
-                      fontSize: 18.sp,
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  // Fade + Slide from bottom effect
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0, 0.3), // start below
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
                     ),
+                  );
+                },
+                child: Text(
+                  title ?? AppStrings.appName,
+                  key: ValueKey(title), // Important: Detect changes
+                  style: titleStyle ??
+                      AppTypography.heading2.copyWith(
+                        color: AppColors.textColorGrey,
+                        fontSize: 18.sp,
+                      ),
+                ),
               ),
+
               Positioned(
                 right: 24.dp,
                 child: InkWell(
-                  onTap: () {
-                    if(onTapTrailingIcon != null) {
-                      onTapTrailingIcon!();
-                    }
-                  },
-                  child:trailingIcon?? Image.asset(
-                    AppImages.statisticsIcon,
-                    width: 24.dp,
-                    height: 24.dp,
-                    color: AppColors.primaryColor,
+                  borderRadius: BorderRadius.circular(8.dp),
+                  onTap: onTapTrailingIcon,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.dp),
+                    child: trailingIcon ??
+                        Image.asset(
+                          AppImages.statisticsIcon,
+                          width: 24.dp,
+                          height: 24.dp,
+                          color: AppColors.primaryColor,
+                        ),
                   ),
                 ),
               ),
             ],
           ),
         ),
+
 
         Gap(titleBottomPadding ?? 16.dp),
         Expanded(

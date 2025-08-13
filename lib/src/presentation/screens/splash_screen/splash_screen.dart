@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
-import 'package:page_animation_transition/animations/fade_animation_transition.dart';
-import 'package:page_animation_transition/animations/top_to_bottom_transition.dart';
-import 'package:page_animation_transition/page_animation_transition.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 import 'package:thoughbox_currency_converter/app/router/route_constants.dart';
-
-import '../../../../app/router/fluid_reveal_route.dart';
-import '../home_screen/home_screen.dart';
+import '../../core/constants/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,44 +13,74 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    )..repeat(reverse: true);
+
+
     Timer(const Duration(seconds: 2), () {
-      // Navigator.pushReplacementNamed(context, RouterConstants.loginRoute); // or '/home'
-      Navigator.pushReplacementNamed(context, RouterConstants.homeRoute); // or '/home'
+      // Navigator.pushReplacementNamed(context, RouterConstants.homeRoute);
+      Navigator.pushReplacementNamed(context, RouterConstants.loginRoute);
     });
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
-      body: Container(
+      body: SizedBox(
         height: 100.h,
         width: 100.w,
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Spacer(),
-              Icon(Icons.currency_exchange, size: 80, color: Colors.white),
-              const SizedBox(height: 16),
-              Text(
-                "CurrencyX",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              return Container(
+                width: 80.dp,
+                height: 80.dp,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: SweepGradient(
+                    colors: [
+                      AppColors.primaryColor.withValues(alpha: 0.1),
+                      AppColors.primaryColor,
+                      AppColors.primaryColor.withValues(alpha: 0.1),
+                    ],
+                    stops: [0.0, _controller.value, 1.0],
+                  ),
                 ),
-              ),
-              Spacer(),
-              CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-              Gap(35.dp),
-            ],
+                child: Center(
+                  child: Container(
+                    width: 60.dp,
+                    height: 60.dp,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                    ),
+                    child: Icon(
+                      Icons.currency_exchange,
+                      size: 32.dp,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),

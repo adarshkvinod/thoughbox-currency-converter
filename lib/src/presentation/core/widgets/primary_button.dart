@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_typography.dart';
-
 import '../constants/app_colors.dart';
 
 class PrimaryButton extends StatelessWidget {
@@ -23,34 +22,42 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-
-      color: bgColor?? AppColors.primaryColor,
+      color: bgColor ?? AppColors.primaryColor,
       borderRadius: BorderRadius.circular(8),
-      child: SizedBox(
-        child: InkWell(
-          borderRadius: BorderRadius.circular(8),
-          onTap: onPressed,
-          child: SizedBox(
-            width: 100.w,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (icon != null) ...[
-                    icon!,
-                    const SizedBox(width: 8),
-                  ],
-                  Text(
-                    title,
-                    style: titleStyle ?? AppTypography.buttonText.copyWith(
-                      fontSize: 16.sp,
-                      color: Colors.white
-                    ),
-                  ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: onPressed,
+        child: SizedBox(
+          width: 100.w,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) ...[
+                  icon!,
+                  const SizedBox(width: 8),
                 ],
-              ),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (Widget child, Animation<double> animation) {
+                    // Fade + slight scale animation
+                    return FadeTransition(
+                      opacity: animation,
+                      child: ScaleTransition(scale: animation, child: child),
+                    );
+                  },
+                  child: Text(
+                    title,
+                    key: ValueKey(title), // detect title change
+                    style: titleStyle ??
+                        AppTypography.buttonText.copyWith(
+                          fontSize: 16.sp,
+                          color: Colors.white,
+                        ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
