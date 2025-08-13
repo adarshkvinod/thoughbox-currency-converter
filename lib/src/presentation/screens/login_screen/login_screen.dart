@@ -10,6 +10,7 @@ import 'package:thoughbox_currency_converter/src/presentation/core/widgets/custo
 import 'package:thoughbox_currency_converter/src/presentation/core/widgets/primary_button.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/widgets/screen_background.dart';
 import 'package:thoughbox_currency_converter/src/presentation/screens/login_screen/widgets/vertical_sliding_tab.dart';
+import '../../../../app/router/custom_route_animation.dart';
 import '../../../../app/utilities/validators.dart';
 import '../../../application/auth_bloc/auth_bloc.dart';
 import '../../core/constants/app_colors.dart';
@@ -141,9 +142,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   BlocListener<AuthBloc, AuthState>(
                     listener: (context, state) {
                       if (state.signUpStatus is StatusSuccess) {
-                        Navigator.pushReplacementNamed(
+                        Navigator.pushReplacement(
                           context,
-                          RouterConstants.homeRoute,
+                          FluidStackRoute(
+                            child: const HomeScreen(),
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOutCubic,
+                          ),
                         );
                       } else if (state.signUpStatus is StatusFailure) {
                         CustomToast.showToast(
@@ -157,9 +162,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: BlocConsumer<AuthBloc, AuthState>(
                       listener: (context, state) {
                         if (state.loginStatus is StatusSuccess) {
-                          Navigator.pushReplacementNamed(
+                          Navigator.pushReplacement(
                             context,
-                            RouterConstants.homeRoute,
+                            FluidStackRoute(
+                              child: const HomeScreen(),
+                              duration: const Duration(milliseconds: 400),
+                              curve: Curves.easeInOutCubic,
+                            ),
                           );
                         } else if (state.loginStatus is StatusFailure) {
                           CustomToast.showToast(

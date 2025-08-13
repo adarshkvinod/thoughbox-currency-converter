@@ -8,7 +8,6 @@ class RateTrendGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: 300,
       height: 300.dp,
       decoration: BoxDecoration(
         color: Color(0xFF2F2F2F),

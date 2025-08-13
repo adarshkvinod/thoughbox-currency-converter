@@ -85,7 +85,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
 
-    // Staggered element animations
     _converterFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _staggerController,
@@ -183,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Navigator.push(
             context,
             FluidStackRoute(
-              child: const StatisticsScreen(), // Replace with your actual screen
+              child: const StatisticsScreen(),
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeInOutCubic,
             ),
@@ -237,7 +236,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   },
                                 ),
                                 Gap(24.dp),
-                                // Amount TextField with staggered animation
                                 AnimatedBuilder(
                                   animation: _staggerController,
                                   builder: (context, child) {
@@ -253,7 +251,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   },
                                 ),
                                 Gap(16.dp),
-                                // Conversion Result Widget with staggered animation
                                 AnimatedBuilder(
                                   animation: _staggerController,
                                   builder: (context, child) {

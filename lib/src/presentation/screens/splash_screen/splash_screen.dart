@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 import 'package:thoughbox_currency_converter/app/router/route_constants.dart';
+import 'package:thoughbox_currency_converter/src/presentation/screens/login_screen/login_screen.dart';
+import '../../../../app/router/custom_route_animation.dart';
 import '../../core/constants/app_colors.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,8 +30,14 @@ class _SplashScreenState extends State<SplashScreen>
 
 
     Timer(const Duration(seconds: 2), () {
-      // Navigator.pushReplacementNamed(context, RouterConstants.homeRoute);
-      Navigator.pushReplacementNamed(context, RouterConstants.loginRoute);
+      Navigator.pushReplacement(
+        context,
+        FluidStackRoute(
+          child: const LoginScreen(),
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOutCubic,
+        ),
+      );
     });
   }
 

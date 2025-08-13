@@ -106,7 +106,6 @@ class _StatisticsTableState extends State<StatisticsTable> {
             ),
             child: Column(
               children: [
-                // Header
                 Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 10,
@@ -178,8 +177,6 @@ class _StatisticsTableState extends State<StatisticsTable> {
                     ),
                   ),
                 ),
-
-                // Rows
               ],
             ),
           ),
