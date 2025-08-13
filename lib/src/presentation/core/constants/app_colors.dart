@@ -5,5 +5,6 @@ class AppColors{
   static const Color textColorGrey = Color(0xFF7C7C7C);
   static const Color primaryColor = Color(0xFF72D553);
   static const Color borderColor = Color(0xFF525252);
+  static const Color errorColor = Color(0xFFD44444);
 }
 

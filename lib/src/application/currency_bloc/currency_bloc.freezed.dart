@@ -17,44 +17,41 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CurrencyEvent {
-  String get from => throw _privateConstructorUsedError;
-  String get to => throw _privateConstructorUsedError;
-  double get amount => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String from, String to, double amount)
     getConversionResult,
+    required TResult Function() clearConversionData,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String from, String to, double amount)?
     getConversionResult,
+    TResult? Function()? clearConversionData,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String from, String to, double amount)?
     getConversionResult,
+    TResult Function()? clearConversionData,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_GetConversionResult value) getConversionResult,
+    required TResult Function(_ClearConversionData value) clearConversionData,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_GetConversionResult value)? getConversionResult,
+    TResult? Function(_ClearConversionData value)? clearConversionData,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_GetConversionResult value)? getConversionResult,
+    TResult Function(_ClearConversionData value)? clearConversionData,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
-
-  /// Create a copy of CurrencyEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $CurrencyEventCopyWith<CurrencyEvent> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -63,8 +60,6 @@ abstract class $CurrencyEventCopyWith<$Res> {
     CurrencyEvent value,
     $Res Function(CurrencyEvent) then,
   ) = _$CurrencyEventCopyWithImpl<$Res, CurrencyEvent>;
-  @useResult
-  $Res call({String from, String to, double amount});
 }
 
 /// @nodoc
@@ -79,37 +74,14 @@ class _$CurrencyEventCopyWithImpl<$Res, $Val extends CurrencyEvent>
 
   /// Create a copy of CurrencyEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? from = null, Object? to = null, Object? amount = null}) {
-    return _then(
-      _value.copyWith(
-            from: null == from
-                ? _value.from
-                : from // ignore: cast_nullable_to_non_nullable
-                      as String,
-            to: null == to
-                ? _value.to
-                : to // ignore: cast_nullable_to_non_nullable
-                      as String,
-            amount: null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                      as double,
-          )
-          as $Val,
-    );
-  }
 }
 
 /// @nodoc
-abstract class _$$GetConversionResultImplCopyWith<$Res>
-    implements $CurrencyEventCopyWith<$Res> {
+abstract class _$$GetConversionResultImplCopyWith<$Res> {
   factory _$$GetConversionResultImplCopyWith(
     _$GetConversionResultImpl value,
     $Res Function(_$GetConversionResultImpl) then,
   ) = __$$GetConversionResultImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String from, String to, double amount});
 }
@@ -197,6 +169,7 @@ class _$GetConversionResultImpl implements _GetConversionResult {
   TResult when<TResult extends Object?>({
     required TResult Function(String from, String to, double amount)
     getConversionResult,
+    required TResult Function() clearConversionData,
   }) {
     return getConversionResult(from, to, amount);
   }
@@ -206,6 +179,7 @@ class _$GetConversionResultImpl implements _GetConversionResult {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String from, String to, double amount)?
     getConversionResult,
+    TResult? Function()? clearConversionData,
   }) {
     return getConversionResult?.call(from, to, amount);
   }
@@ -215,6 +189,7 @@ class _$GetConversionResultImpl implements _GetConversionResult {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String from, String to, double amount)?
     getConversionResult,
+    TResult Function()? clearConversionData,
     required TResult orElse(),
   }) {
     if (getConversionResult != null) {
@@ -227,6 +202,7 @@ class _$GetConversionResultImpl implements _GetConversionResult {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_GetConversionResult value) getConversionResult,
+    required TResult Function(_ClearConversionData value) clearConversionData,
   }) {
     return getConversionResult(this);
   }
@@ -235,6 +211,7 @@ class _$GetConversionResultImpl implements _GetConversionResult {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_GetConversionResult value)? getConversionResult,
+    TResult? Function(_ClearConversionData value)? clearConversionData,
   }) {
     return getConversionResult?.call(this);
   }
@@ -243,6 +220,7 @@ class _$GetConversionResultImpl implements _GetConversionResult {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_GetConversionResult value)? getConversionResult,
+    TResult Function(_ClearConversionData value)? clearConversionData,
     required TResult orElse(),
   }) {
     if (getConversionResult != null) {
@@ -259,19 +237,126 @@ abstract class _GetConversionResult implements CurrencyEvent {
     required final double amount,
   }) = _$GetConversionResultImpl;
 
-  @override
   String get from;
-  @override
   String get to;
-  @override
   double get amount;
 
   /// Create a copy of CurrencyEvent
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetConversionResultImplCopyWith<_$GetConversionResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ClearConversionDataImplCopyWith<$Res> {
+  factory _$$ClearConversionDataImplCopyWith(
+    _$ClearConversionDataImpl value,
+    $Res Function(_$ClearConversionDataImpl) then,
+  ) = __$$ClearConversionDataImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ClearConversionDataImplCopyWithImpl<$Res>
+    extends _$CurrencyEventCopyWithImpl<$Res, _$ClearConversionDataImpl>
+    implements _$$ClearConversionDataImplCopyWith<$Res> {
+  __$$ClearConversionDataImplCopyWithImpl(
+    _$ClearConversionDataImpl _value,
+    $Res Function(_$ClearConversionDataImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of CurrencyEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$ClearConversionDataImpl implements _ClearConversionData {
+  const _$ClearConversionDataImpl();
+
+  @override
+  String toString() {
+    return 'CurrencyEvent.clearConversionData()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ClearConversionDataImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String from, String to, double amount)
+    getConversionResult,
+    required TResult Function() clearConversionData,
+  }) {
+    return clearConversionData();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String from, String to, double amount)?
+    getConversionResult,
+    TResult? Function()? clearConversionData,
+  }) {
+    return clearConversionData?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String from, String to, double amount)?
+    getConversionResult,
+    TResult Function()? clearConversionData,
+    required TResult orElse(),
+  }) {
+    if (clearConversionData != null) {
+      return clearConversionData();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_GetConversionResult value) getConversionResult,
+    required TResult Function(_ClearConversionData value) clearConversionData,
+  }) {
+    return clearConversionData(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_GetConversionResult value)? getConversionResult,
+    TResult? Function(_ClearConversionData value)? clearConversionData,
+  }) {
+    return clearConversionData?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_GetConversionResult value)? getConversionResult,
+    TResult Function(_ClearConversionData value)? clearConversionData,
+    required TResult orElse(),
+  }) {
+    if (clearConversionData != null) {
+      return clearConversionData(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ClearConversionData implements CurrencyEvent {
+  const factory _ClearConversionData() = _$ClearConversionDataImpl;
 }
 
 /// @nodoc

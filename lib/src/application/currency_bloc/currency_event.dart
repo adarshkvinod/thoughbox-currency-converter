@@ -8,4 +8,5 @@ class CurrencyEvent with _$CurrencyEvent {
     required String to,
     required double amount,
   }) = _GetConversionResult;
+  const factory CurrencyEvent.clearConversionData() = _ClearConversionData;
 }

@@ -22,41 +22,24 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
     final now = DateTime.now();
     final cached = localStorage.getCachedRate(from, to);
 
-    if (cached != null) {
-      final fetchedAt = DateTime.parse(cached['fetchedAt'] as String);
-      final diff = now.difference(fetchedAt);
+    // Determine if cache is fresh (<5 mins)
+    final bool useCache = cached != null &&
+        now.difference(DateTime.parse(cached['fetchedAt'] as String)).inMinutes < 5;
 
-      final rate = cached['rate'] as double;
-
-      if (diff.inMinutes < 5) {
-        return ConversionResultModel(
-          base: from,
-          amount: amount.toString(),
-          result: {
-            to: rate * amount,
-            'rate': rate,
-          },
-          ms: 0,
-          isCached: true,
-          cacheAgeInMinutes: diff.inMinutes,
-        );
-      } else {
-        log('Cached rate older than 5 minutes for $from-$to', name: 'CurrencyRepository');
-        // still return cached but with warning
-        return ConversionResultModel(
-          base: from,
-          amount: amount.toString(),
-          result: {
-            to: rate * amount,
-            'rate': rate,
-          },
-          ms: 0,
-          isCached: true,
-          cacheAgeInMinutes: diff.inMinutes,
-        );
-      }
+    if (useCache) {
+      final rate = cached!['rate'] as double;
+      return ConversionResultModel(
+        from: from,
+        to: to,
+        amount: amount.toString(),
+        result: {to: rate * amount, 'rate': rate},
+        ms: 0,
+        isCached: true,
+        cacheAgeInMinutes: now.difference(DateTime.parse(cached['fetchedAt'] as String)).inMinutes,
+      );
     }
 
+    // Fetch fresh rate from API
     try {
       final queryParams = {
         'from': from,
@@ -65,24 +48,20 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
         'access_key': ApiConstants.accessKey,
       };
 
-      final response = await api.get(
-        ApiEndpoints.conversion,
-        queryParameters: queryParams,
-      );
+      final response = await api.get(ApiEndpoints.conversion, queryParameters: queryParams);
 
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
         final rate = data['result']['rate'] as double;
 
+        // Cache fresh rate
         await localStorage.setCachedRate(from: from, to: to, rate: rate);
 
         return ConversionResultModel(
-          base: from,
+          from: from,
+          to: to,
           amount: amount.toString(),
-          result: {
-            to: rate * amount,
-            'rate': rate,
-          },
+          result: {to: rate * amount, 'rate': rate},
           ms: data['ms'] ?? 0,
           isCached: false,
           cacheAgeInMinutes: 0,
@@ -91,24 +70,23 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
         throw Exception('API failed: ${response.statusMessage}');
       }
     } catch (e, stackTrace) {
+      // Fallback to cache if API fails and cache exists
       if (cached != null) {
         final fetchedAt = DateTime.parse(cached['fetchedAt'] as String);
         final diff = now.difference(fetchedAt);
-        if (diff.inMinutes <= 30) {
-          final rate = cached['rate'] as double;
-          log('Using fallback cached rate for $from-$to', name: 'CurrencyRepository', stackTrace: stackTrace);
-          return ConversionResultModel(
-            base: from,
-            amount: amount.toString(),
-            result: {
-              to: rate * amount,
-              'rate': rate,
-            },
-            ms: 0,
-            isCached: true,
-            cacheAgeInMinutes: diff.inMinutes,
-          );
-        }
+        final rate = cached['rate'] as double;
+
+        log('Using fallback cached rate for $from-$to', name: 'CurrencyRepository', stackTrace: stackTrace);
+
+        return ConversionResultModel(
+          from: from,
+          to: to,
+          amount: amount.toString(),
+          result: {to: rate * amount, 'rate': rate},
+          ms: 0,
+          isCached: true,
+          cacheAgeInMinutes: diff.inMinutes,
+        );
       }
       rethrow;
     }

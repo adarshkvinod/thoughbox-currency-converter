@@ -3,6 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_colors.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_typography.dart';
+import 'package:thoughbox_currency_converter/src/presentation/core/utils/utils.dart';
+
+import '../../../core/constants/app_constants.dart';
 
 class AmountTextField extends StatefulWidget {
   final String fromCurrency; // e.g. "INR"
@@ -24,68 +27,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
   final TextEditingController _controller = TextEditingController();
   String? _errorText; // Current error message
 
-  static Map<String, Widget> prefixIcons = {
-    'INR': Text(
-      '₹',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'USD': Text(
-      '\$',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'EUR': Text(
-      '€',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'JPY': Text(
-      '¥',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'GBP': Text(
-      '£',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'CAD': Text(
-      'C\$',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'CNY': Text(
-      '¥',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'AUD': Text(
-      'A\$',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'CHF': Text(
-      'Fr',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'RUB': Text(
-      '₽',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'BRL': Text(
-      'R\$',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'ZAR': Text(
-      'R',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'KRW': Text(
-      '₩',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'SGD': Text(
-      'S\$',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-    'MXN': Text(
-      '\$',
-      style: TextStyle(fontSize: 24.sp, color: Colors.white),
-    ),
-  };
+
 
   @override
   void dispose() {
@@ -94,13 +36,14 @@ class _AmountTextFieldState extends State<AmountTextField> {
   }
 
   Widget _buildPrefixIcon() {
-    final icon =
-        prefixIcons[widget.fromCurrency] ??
-        SizedBox(width: 24.dp, height: 24.dp);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       key: ValueKey(widget.fromCurrency),
-      child: icon,
+      child: Text(Utils.getCurrencyIcon(widget.fromCurrency),
+      style: AppTypography.heading2.copyWith(
+        color: AppColors.textColorGrey
+      ),
+      ),
     );
   }
 

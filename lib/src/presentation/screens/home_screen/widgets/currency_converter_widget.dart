@@ -4,13 +4,13 @@ import 'package:the_responsive_builder/the_responsive_builder.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/widgets/shimmer_placeholder.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/app_images.dart';
 import '../../../core/constants/app_typography.dart';
 
 class CurrencyConverterWidget extends StatefulWidget {
   final bool isLoading;
   final void Function(String from, String to)? onPairChanged;
-
 
   const CurrencyConverterWidget({
     super.key,
@@ -25,23 +25,23 @@ class CurrencyConverterWidget extends StatefulWidget {
 
 class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
     with TickerProviderStateMixin {
-  final List<Map<String, String>> countries = [
-    {'flag': '🇺🇸', 'code': 'USD'}, // United States Dollar
-    {'flag': '🇪🇺', 'code': 'EUR'}, // Eurozone Euro
-    {'flag': '🇮🇳', 'code': 'INR'}, // Indian Rupee
-    {'flag': '🇯🇵', 'code': 'JPY'}, // Japanese Yen
-    {'flag': '🇬🇧', 'code': 'GBP'}, // British Pound
-    {'flag': '🇨🇦', 'code': 'CAD'}, // Canadian Dollar
-    {'flag': '🇨🇳', 'code': 'CNY'}, // Chinese Yuan
-    {'flag': '🇦🇺', 'code': 'AUD'}, // Australian Dollar
-    {'flag': '🇨🇭', 'code': 'CHF'}, // Swiss Franc
-    {'flag': '🇷🇺', 'code': 'RUB'}, // Russian Ruble
-    {'flag': '🇧🇷', 'code': 'BRL'}, // Brazilian Real
-    {'flag': '🇿🇦', 'code': 'ZAR'}, // South African Rand
-    {'flag': '🇰🇷', 'code': 'KRW'}, // South Korean Won
-    {'flag': '🇸🇬', 'code': 'SGD'}, // Singapore Dollar
-    {'flag': '🇲🇽', 'code': 'MXN'}, // Mexican Peso
-  ];
+  // final List<Map<String, String>> countries = [
+  //   {'flag': '🇺🇸', 'code': 'USD'}, // United States Dollar
+  //   {'flag': '🇪🇺', 'code': 'EUR'}, // Eurozone Euro
+  //   {'flag': '🇮🇳', 'code': 'INR'}, // Indian Rupee
+  //   {'flag': '🇯🇵', 'code': 'JPY'}, // Japanese Yen
+  //   {'flag': '🇬🇧', 'code': 'GBP'}, // British Pound
+  //   {'flag': '🇨🇦', 'code': 'CAD'}, // Canadian Dollar
+  //   {'flag': '🇨🇳', 'code': 'CNY'}, // Chinese Yuan
+  //   {'flag': '🇦🇺', 'code': 'AUD'}, // Australian Dollar
+  //   {'flag': '🇨🇭', 'code': 'CHF'}, // Swiss Franc
+  //   {'flag': '🇷🇺', 'code': 'RUB'}, // Russian Ruble
+  //   {'flag': '🇧🇷', 'code': 'BRL'}, // Brazilian Real
+  //   {'flag': '🇿🇦', 'code': 'ZAR'}, // South African Rand
+  //   {'flag': '🇰🇷', 'code': 'KRW'}, // South Korean Won
+  //   {'flag': '🇸🇬', 'code': 'SGD'}, // Singapore Dollar
+  //   {'flag': '🇲🇽', 'code': 'MXN'}, // Mexican Peso
+  // ];
 
   late Map<String, String> selectedFrom;
   late Map<String, String> selectedTo;
@@ -73,8 +73,8 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
   void initState() {
     super.initState();
 
-    selectedFrom = countries[2];
-    selectedTo = countries[0];
+    selectedFrom = AppConstants.countries[2];
+    selectedTo = AppConstants.countries[0];
 
     _fromAnimationController = AnimationController(
       duration: const Duration(milliseconds: 250),
@@ -238,7 +238,7 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
       ),
       child: ListView(
         padding: EdgeInsets.zero,
-        children: countries.map((country) {
+        children: AppConstants.countries.map((country) {
           final isSelected = country == selected;
           return ListTile(
             leading: Text(
@@ -291,7 +291,7 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
               Gap(8.dp),
               Text(
                 selected?['code'] ?? '',
-                style:  AppTypography.bodyText.copyWith(
+                style: AppTypography.bodyText.copyWith(
                   fontSize: 16.sp,
                   color: Colors.white,
                 ),

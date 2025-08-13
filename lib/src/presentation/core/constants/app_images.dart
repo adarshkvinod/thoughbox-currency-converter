@@ -3,4 +3,5 @@ class AppImages{
   static const String swapIcon = 'assets/images/swap.png';
   static const String convertIcon = 'assets/images/convert.png';
   static const String resultPlaceholder = 'assets/images/result_placeholder.png';
+  static const String arrowImage = 'assets/images/arrow_image.png';
 }

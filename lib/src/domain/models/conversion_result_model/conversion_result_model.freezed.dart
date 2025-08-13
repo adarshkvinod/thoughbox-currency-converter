@@ -23,7 +23,8 @@ ConversionResultModel _$ConversionResultModelFromJson(
 
 /// @nodoc
 mixin _$ConversionResultModel {
-  String get base => throw _privateConstructorUsedError;
+  String get from => throw _privateConstructorUsedError; // added
+  String get to => throw _privateConstructorUsedError; // added
   String get amount => throw _privateConstructorUsedError;
   Map<String, double> get result => throw _privateConstructorUsedError;
   int get ms => throw _privateConstructorUsedError;
@@ -48,7 +49,8 @@ abstract class $ConversionResultModelCopyWith<$Res> {
   ) = _$ConversionResultModelCopyWithImpl<$Res, ConversionResultModel>;
   @useResult
   $Res call({
-    String base,
+    String from,
+    String to,
     String amount,
     Map<String, double> result,
     int ms,
@@ -75,7 +77,8 @@ class _$ConversionResultModelCopyWithImpl<
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? base = null,
+    Object? from = null,
+    Object? to = null,
     Object? amount = null,
     Object? result = null,
     Object? ms = null,
@@ -84,9 +87,13 @@ class _$ConversionResultModelCopyWithImpl<
   }) {
     return _then(
       _value.copyWith(
-            base: null == base
-                ? _value.base
-                : base // ignore: cast_nullable_to_non_nullable
+            from: null == from
+                ? _value.from
+                : from // ignore: cast_nullable_to_non_nullable
+                      as String,
+            to: null == to
+                ? _value.to
+                : to // ignore: cast_nullable_to_non_nullable
                       as String,
             amount: null == amount
                 ? _value.amount
@@ -124,7 +131,8 @@ abstract class _$$ConversionResultModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    String base,
+    String from,
+    String to,
     String amount,
     Map<String, double> result,
     int ms,
@@ -148,7 +156,8 @@ class __$$ConversionResultModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? base = null,
+    Object? from = null,
+    Object? to = null,
     Object? amount = null,
     Object? result = null,
     Object? ms = null,
@@ -157,9 +166,13 @@ class __$$ConversionResultModelImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$ConversionResultModelImpl(
-        base: null == base
-            ? _value.base
-            : base // ignore: cast_nullable_to_non_nullable
+        from: null == from
+            ? _value.from
+            : from // ignore: cast_nullable_to_non_nullable
+                  as String,
+        to: null == to
+            ? _value.to
+            : to // ignore: cast_nullable_to_non_nullable
                   as String,
         amount: null == amount
             ? _value.amount
@@ -190,7 +203,8 @@ class __$$ConversionResultModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ConversionResultModelImpl implements _ConversionResultModel {
   const _$ConversionResultModelImpl({
-    this.base = '',
+    this.from = '',
+    this.to = '',
     this.amount = '0',
     final Map<String, double> result = const <String, double>{},
     this.ms = 0,
@@ -203,7 +217,12 @@ class _$ConversionResultModelImpl implements _ConversionResultModel {
 
   @override
   @JsonKey()
-  final String base;
+  final String from;
+  // added
+  @override
+  @JsonKey()
+  final String to;
+  // added
   @override
   @JsonKey()
   final String amount;
@@ -228,7 +247,7 @@ class _$ConversionResultModelImpl implements _ConversionResultModel {
 
   @override
   String toString() {
-    return 'ConversionResultModel(base: $base, amount: $amount, result: $result, ms: $ms, isCached: $isCached, cacheAgeInMinutes: $cacheAgeInMinutes)';
+    return 'ConversionResultModel(from: $from, to: $to, amount: $amount, result: $result, ms: $ms, isCached: $isCached, cacheAgeInMinutes: $cacheAgeInMinutes)';
   }
 
   @override
@@ -236,7 +255,8 @@ class _$ConversionResultModelImpl implements _ConversionResultModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ConversionResultModelImpl &&
-            (identical(other.base, base) || other.base == base) &&
+            (identical(other.from, from) || other.from == from) &&
+            (identical(other.to, to) || other.to == to) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             const DeepCollectionEquality().equals(other._result, _result) &&
             (identical(other.ms, ms) || other.ms == ms) &&
@@ -250,7 +270,8 @@ class _$ConversionResultModelImpl implements _ConversionResultModel {
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    base,
+    from,
+    to,
     amount,
     const DeepCollectionEquality().hash(_result),
     ms,
@@ -278,7 +299,8 @@ class _$ConversionResultModelImpl implements _ConversionResultModel {
 
 abstract class _ConversionResultModel implements ConversionResultModel {
   const factory _ConversionResultModel({
-    final String base,
+    final String from,
+    final String to,
     final String amount,
     final Map<String, double> result,
     final int ms,
@@ -290,7 +312,9 @@ abstract class _ConversionResultModel implements ConversionResultModel {
       _$ConversionResultModelImpl.fromJson;
 
   @override
-  String get base;
+  String get from; // added
+  @override
+  String get to; // added
   @override
   String get amount;
   @override

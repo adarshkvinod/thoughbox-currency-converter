@@ -252,6 +252,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       return CurrencyConverterWidget(
                                                         onPairChanged:
                                                             (from, to) {
+                                                          context.read<CurrencyBloc>().add(CurrencyEvent.clearConversionData());
                                                               currencyFromListener
                                                                   .value = from
                                                                   .toString();

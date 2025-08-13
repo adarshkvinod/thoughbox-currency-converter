@@ -17,9 +17,13 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
   final CurrencyRepository currencyRepository;
   CurrencyBloc(this.currencyRepository) : super(CurrencyState.initial()) {
     on<_GetConversionResult>(_getConversionResultEvent);
+    on<_ClearConversionData>(_clearConversionDataEvent);
   }
 
-  FutureOr<void> _getConversionResultEvent(_GetConversionResult event, Emitter<CurrencyState> emit) async{
+  FutureOr<void> _getConversionResultEvent(
+    _GetConversionResult event,
+    Emitter<CurrencyState> emit,
+  ) async {
     try {
       emit(state.copyWith(getConversionResultStatus: Status.loading()));
       final conversionResultData = await currencyRepository.getConversionResult(
@@ -35,10 +39,20 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
       );
     } catch (e) {
       emit(
-        state.copyWith(
-          getConversionResultStatus: Status.failure(e.toString()),
-        ),
+        state.copyWith(getConversionResultStatus: Status.failure(e.toString())),
       );
     }
+  }
+
+  FutureOr<void> _clearConversionDataEvent(
+    _ClearConversionData event,
+    Emitter<CurrencyState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        getConversionResultStatus: Status.initial(),
+        conversionResult: ConversionResultModel(),
+      ),
+    );
   }
 }
