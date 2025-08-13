@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_colors.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_typography.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/utils/utils.dart';
 
-import '../../../core/constants/app_constants.dart';
-
 class AmountTextField extends StatefulWidget {
-  final String fromCurrency; // e.g. "INR"
-  final ValueChanged<String>? onChanged; // callback for live updates
-  final String? Function(String?)? validator; // optional custom validator
+  final String fromCurrency;
+  final ValueChanged<String>? onChanged;
+  final String? Function(String?)? validator;
 
   const AmountTextField({
     super.key,
@@ -25,9 +22,7 @@ class AmountTextField extends StatefulWidget {
 
 class _AmountTextFieldState extends State<AmountTextField> {
   final TextEditingController _controller = TextEditingController();
-  String? _errorText; // Current error message
-
-
+  String? _errorText;
 
   @override
   void dispose() {
@@ -39,10 +34,9 @@ class _AmountTextFieldState extends State<AmountTextField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       key: ValueKey(widget.fromCurrency),
-      child: Text(Utils.getCurrencyIcon(widget.fromCurrency),
-      style: AppTypography.heading2.copyWith(
-        color: AppColors.textColorGrey
-      ),
+      child: Text(
+        Utils.getCurrencyIcon(widget.fromCurrency),
+        style: AppTypography.heading2.copyWith(color: AppColors.textColorGrey),
       ),
     );
   }
@@ -50,8 +44,9 @@ class _AmountTextFieldState extends State<AmountTextField> {
   String? _defaultValidator(String? value) {
     if (value == null || value.trim().isEmpty) return 'Please enter an amount';
     final num? parsed = num.tryParse(value);
-    if (parsed == null || parsed <= 0)
+    if (parsed == null || parsed <= 0) {
       return 'Enter a valid number greater than 0';
+    }
     if (parsed >= 100000) return 'Amount must be less than 100,000';
     return null;
   }
@@ -88,7 +83,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
               if (widget.onChanged != null) widget.onChanged!(value);
             },
             onTapOutside: (event) {
-                FocusScope.of(context).unfocus();
+              FocusScope.of(context).unfocus();
             },
             // validator: widget.validator,
             decoration: InputDecoration(

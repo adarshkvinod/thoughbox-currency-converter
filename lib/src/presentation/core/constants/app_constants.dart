@@ -1,11 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:the_responsive_builder/the_responsive_builder.dart';
-
-import 'app_typography.dart';
-
 class AppConstants {
   static final List<Map<String, String>> countries = [
     {'flag': '🇺🇸', 'code': 'USD'}, // United States Dollar
@@ -42,6 +34,4 @@ class AppConstants {
     'SGD': 'S\$',
     'MXN': '\$',
   };
-
-
 }

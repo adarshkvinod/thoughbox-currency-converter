@@ -23,11 +23,15 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
     final cached = localStorage.getCachedRate(from, to);
 
     // Determine if cache is fresh (<5 mins)
-    final bool useCache = cached != null &&
-        now.difference(DateTime.parse(cached['fetchedAt'] as String)).inMinutes < 5;
+    final bool useCache =
+        cached != null &&
+        now
+                .difference(DateTime.parse(cached['fetchedAt'] as String))
+                .inMinutes <
+            5;
 
     if (useCache) {
-      final rate = cached!['rate'] as double;
+      final rate = cached['rate'] as double;
       return ConversionResultModel(
         from: from,
         to: to,
@@ -35,7 +39,9 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
         result: {to: rate * amount, 'rate': rate},
         ms: 0,
         isCached: true,
-        cacheAgeInMinutes: now.difference(DateTime.parse(cached['fetchedAt'] as String)).inMinutes,
+        cacheAgeInMinutes: now
+            .difference(DateTime.parse(cached['fetchedAt'] as String))
+            .inMinutes,
       );
     }
 
@@ -48,7 +54,10 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
         'access_key': ApiConstants.accessKey,
       };
 
-      final response = await api.get(ApiEndpoints.conversion, queryParameters: queryParams);
+      final response = await api.get(
+        ApiEndpoints.conversion,
+        queryParameters: queryParams,
+      );
 
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
@@ -76,7 +85,11 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
         final diff = now.difference(fetchedAt);
         final rate = cached['rate'] as double;
 
-        log('Using fallback cached rate for $from-$to', name: 'CurrencyRepository', stackTrace: stackTrace);
+        log(
+          'Using fallback cached rate for $from-$to',
+          name: 'CurrencyRepository',
+          stackTrace: stackTrace,
+        );
 
         return ConversionResultModel(
           from: from,
