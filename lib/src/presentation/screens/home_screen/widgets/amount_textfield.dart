@@ -87,6 +87,9 @@ class _AmountTextFieldState extends State<AmountTextField> {
               _validate(value);
               if (widget.onChanged != null) widget.onChanged!(value);
             },
+            onTapOutside: (event) {
+                FocusScope.of(context).unfocus();
+            },
             // validator: widget.validator,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(

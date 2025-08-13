@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             title: 'Currency Converter',
             theme: ThemeData(
               scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
             ),
             initialRoute: RouterConstants.splashRoute,
             onGenerateRoute: AppRouter.generateRoute,

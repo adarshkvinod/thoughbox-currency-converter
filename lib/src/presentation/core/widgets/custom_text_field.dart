@@ -107,6 +107,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: TextFormField(
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
+                    },
                     focusNode: _focusNode,
                     controller: widget.controller,
                     keyboardType: widget.keyboardType,
