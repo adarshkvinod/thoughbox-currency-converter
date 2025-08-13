@@ -112,7 +112,7 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
       final from = state.conversionResult.from;
       final to = state.conversionResult.to;
       final amount = state.conversionResult.amount;
-      final rate = state.conversionResult.result["rate"];
+      final rate = state.conversionResult.result[state.conversionResult.to];
       final isOldResult =
           state.conversionResult.isCached &&
           state.conversionResult.cacheAgeInMinutes > 5;
