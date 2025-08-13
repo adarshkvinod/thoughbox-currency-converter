@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -14,7 +13,6 @@ import 'package:thoughbox_currency_converter/src/presentation/core/widgets/scree
 import 'package:thoughbox_currency_converter/src/presentation/screens/home_screen/widgets/amount_textfield.dart';
 import 'package:thoughbox_currency_converter/src/presentation/screens/home_screen/widgets/conversion_result_widget.dart';
 import 'package:thoughbox_currency_converter/src/presentation/screens/home_screen/widgets/currency_converter_widget.dart';
-
 import '../../../../app/router/custom_route_animation.dart';
 import '../../../application/currency_bloc/currency_bloc.dart';
 import '../statistics_screen/statisticts_screen.dart';
@@ -27,25 +25,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  ValueNotifier<String> currencyFromListener = ValueNotifier('');
-  ValueNotifier<String> currencyToListener = ValueNotifier('');
-  ValueNotifier<double> amountListener = ValueNotifier(0);
+  final ValueNotifier<String> currencyFromListener = ValueNotifier('');
+  final ValueNotifier<String> currencyToListener = ValueNotifier('');
+  final ValueNotifier<double> amountListener = ValueNotifier(0);
+  final double maxValue = 100000;
 
-  late AnimationController _mainController;
-  late AnimationController _staggerController;
+  late final AnimationController _mainController;
+  late final AnimationController _staggerController;
 
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
-  late Animation<double> _scaleAnimation;
+  late final Animation<double> _fadeAnimation;
+  late final Animation<Offset> _slideAnimation;
+  late final Animation<double> _scaleAnimation;
 
-  late Animation<double> _converterFadeAnimation;
-  late Animation<Offset> _converterSlideAnimation;
-  late Animation<double> _textFieldFadeAnimation;
-  late Animation<Offset> _textFieldSlideAnimation;
-  late Animation<double> _resultFadeAnimation;
-  late Animation<Offset> _resultSlideAnimation;
-  late Animation<double> _buttonFadeAnimation;
-  late Animation<double> _buttonScaleAnimation;
+  late final Animation<double> _converterFadeAnimation;
+  late final Animation<Offset> _converterSlideAnimation;
+  late final Animation<double> _textFieldFadeAnimation;
+  late final Animation<Offset> _textFieldSlideAnimation;
+  late final Animation<double> _resultFadeAnimation;
+  late final Animation<Offset> _resultSlideAnimation;
+  late final Animation<double> _buttonFadeAnimation;
+  late final Animation<double> _buttonScaleAnimation;
 
   bool _isLoading = true;
 
@@ -57,107 +56,50 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _setupAnimations() {
-    _mainController = AnimationController(
-      duration: const Duration(milliseconds: 1200),
-      vsync: this,
+    _mainController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
+    _staggerController = AnimationController(vsync: this, duration: const Duration(milliseconds: 2000));
+
+    _fadeAnimation = CurvedAnimation(parent: _mainController, curve: const Interval(0.0, 0.6, curve: Curves.easeOut));
+    _slideAnimation = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+      CurvedAnimation(parent: _mainController, curve: const Interval(0.0, 0.8, curve: Curves.easeOutCubic)),
     );
-
-    _staggerController = AnimationController(
-      duration: const Duration(milliseconds: 2000),
-      vsync: this,
-    );
-
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _mainController,
-        curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
-      ),
-    );
-
-    _slideAnimation =
-        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _mainController,
-            curve: const Interval(0.0, 0.8, curve: Curves.easeOutCubic),
-          ),
-        );
-
     _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _mainController,
-        curve: const Interval(0.0, 0.8, curve: Curves.easeOutBack),
-      ),
+      CurvedAnimation(parent: _mainController, curve: const Interval(0.0, 0.8, curve: Curves.easeOutBack)),
     );
 
-    _converterFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _staggerController,
-        curve: const Interval(0.0, 0.3, curve: Curves.easeOut),
-      ),
+    _converterFadeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _staggerController, curve: const Interval(0.0, 0.3, curve: Curves.easeOut)),
+    );
+    _converterSlideAnimation = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero).animate(
+      CurvedAnimation(parent: _staggerController, curve: const Interval(0.0, 0.4, curve: Curves.easeOutCubic)),
     );
 
-    _converterSlideAnimation =
-        Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _staggerController,
-            curve: const Interval(0.0, 0.4, curve: Curves.easeOutCubic),
-          ),
-        );
-
-    _textFieldFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _staggerController,
-        curve: const Interval(0.2, 0.5, curve: Curves.easeOut),
-      ),
+    _textFieldFadeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _staggerController, curve: const Interval(0.2, 0.5, curve: Curves.easeOut)),
+    );
+    _textFieldSlideAnimation = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero).animate(
+      CurvedAnimation(parent: _staggerController, curve: const Interval(0.2, 0.6, curve: Curves.easeOutCubic)),
     );
 
-    _textFieldSlideAnimation =
-        Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _staggerController,
-            curve: const Interval(0.2, 0.6, curve: Curves.easeOutCubic),
-          ),
-        );
-
-    _resultFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _staggerController,
-        curve: const Interval(0.4, 0.7, curve: Curves.easeOut),
-      ),
+    _resultFadeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _staggerController, curve: const Interval(0.4, 0.7, curve: Curves.easeOut)),
+    );
+    _resultSlideAnimation = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero).animate(
+      CurvedAnimation(parent: _staggerController, curve: const Interval(0.4, 0.8, curve: Curves.easeOutCubic)),
     );
 
-    _resultSlideAnimation =
-        Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _staggerController,
-            curve: const Interval(0.4, 0.8, curve: Curves.easeOutCubic),
-          ),
-        );
-
-    _buttonFadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _staggerController,
-        curve: const Interval(0.6, 0.9, curve: Curves.easeOut),
-      ),
+    _buttonFadeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _staggerController, curve: const Interval(0.6, 0.9, curve: Curves.easeOut)),
     );
-
     _buttonScaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _staggerController,
-        curve: const Interval(0.6, 1.0, curve: Curves.elasticOut),
-      ),
+      CurvedAnimation(parent: _staggerController, curve: const Interval(0.6, 1.0, curve: Curves.elasticOut)),
     );
   }
 
-  void _startLoadingSequence() async {
+  Future<void> _startLoadingSequence() async {
     await Future.delayed(const Duration(milliseconds: 800));
-
-    setState(() {
-      _isLoading = false;
-    });
-
+    setState(() => _isLoading = false);
     _mainController.forward();
-
     await Future.delayed(const Duration(milliseconds: 400));
     _staggerController.forward();
   }
@@ -169,36 +111,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  String? validateAmount(String? value, {double max = 100000}) {
-    if (value == null || value.trim().isEmpty) {
-      return 'Please enter an amount';
-    }
-
+  String? validateAmount(String? value) {
+    if (value == null || value.trim().isEmpty) return 'Please enter an amount';
     final num? amount = num.tryParse(value);
-    if (amount == null) {
-      return 'Enter a valid number';
-    }
-
-    if (amount <= 0) {
-      return 'Amount must be positive';
-    }
-
-    if (amount >= max) {
-      return 'Amount must be less than $max';
-    }
-
-    return null; // Valid input
+    if (amount == null || amount <= 0) return 'Enter a valid number greater than 0';
+    if (amount >= maxValue) return 'Amount must be less than $maxValue';
+    return null;
   }
 
-  double maxValue = 100000;
+  void _onConvertPressed(String from, String to, double amount, CurrencyState state) {
+    if (from == to) {
+      CustomToast.showToast(context: context, message: 'Please select different currencies');
+      return;
+    }
+    if (amount <= 0 || amount >= maxValue) {
+      CustomToast.showToast(context: context, message: 'Please enter a valid amount');
+      return;
+    }
+    context.read<CurrencyBloc>().add(
+      CurrencyEvent.getConversionResult(from: from, to: to, amount: amount),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return Scaffold(
-        body: ScreenBackground(child: Center(child: _buildLoadingIndicator())),
-      );
-    }
+    if (_isLoading) return Scaffold(body: ScreenBackground(child: Center(child: _buildLoadingIndicator())));
 
     return Scaffold(
       body: ScreenBackground(
@@ -215,174 +152,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         child: BlocBuilder<CurrencyBloc, CurrencyState>(
           builder: (context, state) {
             log(state.conversionResult.toString(), name: "CONVERSION RESULT");
-            return AnimatedBuilder(
-              animation: _mainController,
-              builder: (context, child) {
-                return FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: SlideTransition(
-                    position: _slideAnimation,
-                    child: ScaleTransition(
-                      scale: _scaleAnimation,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.dp),
-                        child: SingleChildScrollView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(minHeight: 86.h),
-                            child: IntrinsicHeight(
-                              child: ValueListenableBuilder(
-                                valueListenable: currencyToListener,
-                                builder: (context, to, child) => ValueListenableBuilder(
-                                  valueListenable: currencyFromListener,
-                                  builder: (context, from, child) => Column(
-                                    children: [
-                                      Gap(24.dp),
-                                      AnimatedBuilder(
-                                        animation: _staggerController,
-                                        builder: (context, child) {
-                                          return FadeTransition(
-                                            opacity: _converterFadeAnimation,
-                                            child: SlideTransition(
-                                              position:
-                                                  _converterSlideAnimation,
-                                              child:
-                                                  BlocBuilder<
-                                                    CurrencyBloc,
-                                                    CurrencyState
-                                                  >(
-                                                    builder: (context, state) {
-                                                      return CurrencyConverterWidget(
-                                                        onPairChanged: (from, to) {
-                                                          context
-                                                              .read<
-                                                                CurrencyBloc
-                                                              >()
-                                                              .add(
-                                                                CurrencyEvent.clearConversionData(),
-                                                              );
-                                                          currencyFromListener
-                                                              .value = from
-                                                              .toString();
-                                                          currencyToListener
-                                                              .value = to
-                                                              .toString();
-                                                        },
-                                                      );
-                                                    },
-                                                  ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                      Gap(24.dp),
-                                      AnimatedBuilder(
-                                        animation: _staggerController,
-                                        builder: (context, child) {
-                                          return FadeTransition(
-                                            opacity: _textFieldFadeAnimation,
-                                            child: SlideTransition(
-                                              position:
-                                                  _textFieldSlideAnimation,
-                                              child: AmountTextField(
-                                                fromCurrency: from,
-                                                onChanged: (value) {
-                                                  amountListener.value =
-                                                      double.tryParse(value) ??
-                                                      0;
-                                                },
-                                                validator: (value) =>
-                                                    validateAmount(
-                                                      value,
-                                                      max: maxValue,
-                                                    ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
 
-                                      Gap(16.dp),
-                                      AnimatedBuilder(
-                                        animation: _staggerController,
-                                        builder: (context, child) {
-                                          return FadeTransition(
-                                            opacity: _resultFadeAnimation,
-                                            child: SlideTransition(
-                                              position: _resultSlideAnimation,
-                                              child: ConversionResultWidget(),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                      const Spacer(),
-                                      AnimatedBuilder(
-                                        animation: _staggerController,
-                                        builder: (context, child) {
-                                          return FadeTransition(
-                                            opacity: _buttonFadeAnimation,
-                                            child: ScaleTransition(
-                                              scale: _buttonScaleAnimation,
-                                              child: ValueListenableBuilder(
-                                                valueListenable: amountListener,
-                                                builder: (context, amount, child) => PrimaryButton(
-                                                  isLoading:
-                                                      state.getConversionResultStatus
-                                                          is StatusLoading,
-                                                  onPressed: () {
-                                                    if(from == to) {
-                                                      CustomToast.showToast(
-                                                        context: context,
-                                                        message:
-                                                            'Please select different currencies',
-                                                      );
-                                                      return;
-                                                    }
-                                                    if (amount < maxValue) {
-                                                      context.read<CurrencyBloc>().add(
-                                                        CurrencyEvent.getConversionResult(
-                                                          from:
-                                                              currencyFromListener
-                                                                  .value,
-                                                          to: currencyToListener
-                                                              .value,
-                                                          amount: amountListener
-                                                              .value,
-                                                        ),
-                                                      );
-                                                    } else {
-                                                      CustomToast.showToast(
-                                                        context: context,
-                                                        message:
-                                                            'Please enter a valid amount',
-                                                      );
-                                                    }
-                                                  },
-                                                  icon: Image.asset(
-                                                    AppImages.convertIcon,
-                                                    height: 24.dp,
-                                                    color: Colors.white,
-                                                  ),
-                                                  title: 'Convert',
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                      Gap(24.dp),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+            return FadeSlideScaleTransition(
+              fade: _fadeAnimation,
+              slide: _slideAnimation,
+              scale: _scaleAnimation,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.dp),
+                child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: 86.h),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          Gap(24.dp),
+                          _buildCurrencyConverter(),
+                          Gap(24.dp),
+                          _buildAmountTextField(),
+                          Gap(16.dp),
+                          _buildConversionResult(),
+                          const Spacer(),
+                          _buildConvertButton(state),
+                          Gap(24.dp),
+                        ],
                       ),
                     ),
                   ),
-                );
-              },
+                ),
+              ),
             );
           },
         ),
@@ -390,62 +188,125 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildLoadingIndicator() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TweenAnimationBuilder(
-          duration: const Duration(milliseconds: 1000),
-          tween: Tween<double>(begin: 0, end: 1),
-          builder: (context, value, child) {
-            return Container(
-              width: 80.dp,
-              height: 80.dp,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: SweepGradient(
-                  colors: [
-                    AppColors.primaryColor.withValues(alpha: 0.1),
-                    AppColors.primaryColor,
-                    AppColors.primaryColor.withValues(alpha: 0.1),
-                  ],
-                  stops: [0.0, value, 1.0],
-                ),
-              ),
-              child: Center(
-                child: Container(
-                  width: 60.dp,
-                  height: 60.dp,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                  ),
-                  child: Icon(
-                    Icons.currency_exchange,
-                    size: 32.dp,
-                    color: AppColors.primaryColor,
-                  ),
-                ),
-              ),
-            );
-          },
+  Widget _buildCurrencyConverter() => FadeSlideTransition(
+    fade: _converterFadeAnimation,
+    slide: _converterSlideAnimation,
+    child: BlocBuilder<CurrencyBloc, CurrencyState>(
+      builder: (context, state) => CurrencyConverterWidget(
+        onPairChanged: (from, to) {
+          context.read<CurrencyBloc>().add(CurrencyEvent.clearConversionData());
+          currencyFromListener.value = from;
+          currencyToListener.value = to;
+        },
+      ),
+    ),
+  );
+
+  Widget _buildAmountTextField() => FadeSlideTransition(
+    fade: _textFieldFadeAnimation,
+    slide: _textFieldSlideAnimation,
+    child: ValueListenableBuilder(
+      valueListenable: currencyFromListener,
+      builder: (context, from, _) => AmountTextField(
+        fromCurrency: from,
+        onChanged: (value) => amountListener.value = double.tryParse(value) ?? 0,
+        validator: validateAmount,
+      ),
+    ),
+  );
+
+  Widget _buildConversionResult() => FadeSlideTransition(
+    fade: _resultFadeAnimation,
+    slide: _resultSlideAnimation,
+    child: const ConversionResultWidget(),
+  );
+
+  Widget _buildConvertButton(CurrencyState state) => FadeScaleTransition(
+    fade: _buttonFadeAnimation,
+    scale: _buttonScaleAnimation,
+    child: ValueListenableBuilder(
+      valueListenable: amountListener,
+      builder: (context, amount, _) => PrimaryButton(
+        isLoading: state.getConversionResultStatus is StatusLoading,
+        onPressed: () => _onConvertPressed(
+          currencyFromListener.value,
+          currencyToListener.value,
+          amount,
+          state,
         ),
-      ],
-    );
-  }
+        icon: Image.asset(AppImages.convertIcon, height: 24.dp, color: Colors.white),
+        title: 'Convert',
+      ),
+    ),
+  );
+
+  Widget _buildLoadingIndicator() => TweenAnimationBuilder(
+    duration: const Duration(milliseconds: 1000),
+    tween: Tween<double>(begin: 0, end: 1),
+    builder: (context, value, child) => Container(
+      width: 80.dp,
+      height: 80.dp,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: SweepGradient(
+          colors: [
+            AppColors.primaryColor.withValues(alpha: 0.1),
+            AppColors.primaryColor,
+            AppColors.primaryColor.withValues(alpha: 0.1),
+          ],
+          stops: [0.0, value, 1.0],
+        ),
+      ),
+      child: Center(
+        child: Container(
+          width: 60.dp,
+          height: 60.dp,
+          decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).scaffoldBackgroundColor),
+          child: Icon(Icons.currency_exchange, size: 32.dp, color: AppColors.primaryColor),
+        ),
+      ),
+    ),
+  );
 }
 
-extension AnimatedWidgetExtensions on Widget {
-  Widget animateOnTap({
-    Duration duration = const Duration(milliseconds: 100),
-    double scale = 0.95,
-  }) {
-    return TweenAnimationBuilder<double>(
-      duration: duration,
-      tween: Tween<double>(begin: 1.0, end: 1.0),
-      builder: (context, value, child) {
-        return Transform.scale(scale: value, child: this);
-      },
-    );
-  }
+/// Helper widget for Fade + Slide transitions
+class FadeSlideTransition extends StatelessWidget {
+  final Widget child;
+  final Animation<double> fade;
+  final Animation<Offset> slide;
+
+  const FadeSlideTransition({super.key, required this.child, required this.fade, required this.slide});
+
+  @override
+  Widget build(BuildContext context) => FadeTransition(
+    opacity: fade,
+    child: SlideTransition(position: slide, child: child),
+  );
+}
+
+/// Helper widget for Fade + Scale transitions
+class FadeSlideScaleTransition extends StatelessWidget {
+  final Widget child;
+  final Animation<double> fade;
+  final Animation<Offset> slide;
+  final Animation<double> scale;
+
+  const FadeSlideScaleTransition({super.key, required this.child, required this.fade, required this.slide, required this.scale});
+
+  @override
+  Widget build(BuildContext context) => FadeTransition(
+    opacity: fade,
+    child: SlideTransition(position: slide, child: ScaleTransition(scale: scale, child: child)),
+  );
+}
+
+class FadeScaleTransition extends StatelessWidget {
+  final Widget child;
+  final Animation<double> fade;
+  final Animation<double> scale;
+
+  const FadeScaleTransition({super.key, required this.child, required this.fade, required this.scale});
+
+  @override
+  Widget build(BuildContext context) => FadeTransition(opacity: fade, child: ScaleTransition(scale: scale, child: child));
 }
