@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
+import 'package:thoughbox_currency_converter/app/router/route_constants.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_colors.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_images.dart';
-import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_strings.dart';
-import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_typography.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/widgets/primary_button.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/widgets/screen_background.dart';
 import 'package:thoughbox_currency_converter/src/presentation/screens/home_screen/widgets/amount_textfield.dart';
 import 'package:thoughbox_currency_converter/src/presentation/screens/home_screen/widgets/conversion_result_widget.dart';
 import 'package:thoughbox_currency_converter/src/presentation/screens/home_screen/widgets/currency_converter_widget.dart';
 
-import '../../../../app/constants/status/status.dart';
+import '../../../../app/router/custom_route_animation.dart';
 import '../../../application/currency_bloc/currency_bloc.dart';
+import '../statistics_screen/statisticts_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _scaleAnimation;
-
 
   late Animation<double> _converterFadeAnimation;
   late Animation<Offset> _converterSlideAnimation;
@@ -54,18 +53,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _setupAnimations() {
-
     _mainController = AnimationController(
       duration: const Duration(milliseconds: 1200),
       vsync: this,
     );
 
-
     _staggerController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
-
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
@@ -151,16 +147,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _startLoadingSequence() async {
-
     await Future.delayed(const Duration(milliseconds: 800));
 
     setState(() {
       _isLoading = false;
     });
 
-
     _mainController.forward();
-
 
     await Future.delayed(const Duration(milliseconds: 400));
     _staggerController.forward();
@@ -178,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (_isLoading) {
       return Scaffold(
         body: ScreenBackground(
-          onTapTrailingIcon: () {},
+
           child: Center(child: _buildLoadingIndicator()),
         ),
       );
@@ -186,7 +179,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     return Scaffold(
       body: ScreenBackground(
-        onTapTrailingIcon: () {},
+        onTapTrailingIcon: () {
+          Navigator.push(
+            context,
+            FluidStackRoute(
+              child: const StatisticsScreen(), // Replace with your actual screen
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOutCubic,
+            ),
+          );
+        },
         child: AnimatedBuilder(
           animation: _mainController,
           builder: (context, child) {

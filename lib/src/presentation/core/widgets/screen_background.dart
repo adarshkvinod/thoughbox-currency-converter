@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
@@ -7,7 +9,7 @@ import '../constants/app_colors.dart';
 import '../constants/app_strings.dart';
 import '../constants/app_typography.dart';
 
-class ScreenBackground extends StatelessWidget {
+class ScreenBackground extends StatefulWidget {
   final String? title;
   final TextStyle? titleStyle;
   final double? titleBottomPadding;
@@ -28,11 +30,16 @@ class ScreenBackground extends StatelessWidget {
   });
 
   @override
+  State<ScreenBackground> createState() => _ScreenBackgroundState();
+}
+
+class _ScreenBackgroundState extends State<ScreenBackground> {
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Gap(titleTopPadding ?? 52.dp),
+        Gap(widget.titleTopPadding ?? 52.dp),
         SizedBox(
           width: 100.w,
           child: Stack(
@@ -54,9 +61,10 @@ class ScreenBackground extends StatelessWidget {
                   );
                 },
                 child: Text(
-                  title ?? AppStrings.appName,
-                  key: ValueKey(title), // Important: Detect changes
-                  style: titleStyle ??
+                  widget.title ?? AppStrings.appName,
+                  key: ValueKey(widget.title), // Important: Detect changes
+                  style:
+                      widget.titleStyle ??
                       AppTypography.heading2.copyWith(
                         color: AppColors.textColorGrey,
                         fontSize: 18.sp,
@@ -68,10 +76,16 @@ class ScreenBackground extends StatelessWidget {
                 right: 24.dp,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(8.dp),
-                  onTap: onTapTrailingIcon,
+                  onTap: () {
+                    if (widget.onTapTrailingIcon != null) {
+                      log('message');
+                      widget.onTapTrailingIcon!();
+                    }
+                  },
                   child: Padding(
                     padding: EdgeInsets.all(8.dp),
-                    child: trailingIcon ??
+                    child:
+                        widget.trailingIcon ??
                         Image.asset(
                           AppImages.statisticsIcon,
                           width: 24.dp,
@@ -85,8 +99,7 @@ class ScreenBackground extends StatelessWidget {
           ),
         ),
 
-
-        Gap(titleBottomPadding ?? 16.dp),
+        Gap(widget.titleBottomPadding ?? 16.dp),
         Expanded(
           child: Container(
             width: 100.w,
@@ -116,7 +129,7 @@ class ScreenBackground extends StatelessWidget {
                   colors: [Color(0xFF1B1B1B), Color(0xFF131313)],
                 ),
               ),
-              child: child,
+              child: widget.child,
             ),
           ),
         ),
