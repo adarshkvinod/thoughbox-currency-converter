@@ -241,14 +241,11 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
         children: AppConstants.countries.map((country) {
           final isSelected = country == selected;
           return ListTile(
-            leading: Text(
-              country['flag']!,
-              style: const TextStyle(fontSize: 24),
-            ),
+            leading: Text(country['flag']!, style: TextStyle(fontSize: 18.sp)),
             title: Text(
               country['code']!,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 16.dp,
                 color: isSelected ? Colors.blueAccent : Colors.white,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
@@ -284,7 +281,7 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
               Text(
                 selected?['flag'] ?? '',
                 style: AppTypography.bodyText.copyWith(
-                  fontSize: 24.sp,
+                  fontSize: 18.sp,
                   color: Colors.white,
                 ),
               ),
