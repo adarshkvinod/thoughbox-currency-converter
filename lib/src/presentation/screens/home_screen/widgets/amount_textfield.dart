@@ -87,6 +87,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
               _validate(value);
               if (widget.onChanged != null) widget.onChanged!(value);
             },
+            // validator: widget.validator,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 12.dp,

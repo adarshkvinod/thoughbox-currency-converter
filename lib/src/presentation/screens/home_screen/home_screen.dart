@@ -8,6 +8,7 @@ import 'package:thoughbox_currency_converter/app/constants/status/status.dart';
 import 'package:thoughbox_currency_converter/app/router/route_constants.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_colors.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_images.dart';
+import 'package:thoughbox_currency_converter/src/presentation/core/widgets/custom_toast.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/widgets/primary_button.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/widgets/screen_background.dart';
 import 'package:thoughbox_currency_converter/src/presentation/screens/home_screen/widgets/amount_textfield.dart';
@@ -189,6 +190,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return null; // Valid input
   }
 
+  double maxValue = 100000;
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -211,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         },
         child: BlocBuilder<CurrencyBloc, CurrencyState>(
           builder: (context, state) {
-            log(state.conversionResult.toString(),name: "CONVERSION RESULT");
+            log(state.conversionResult.toString(), name: "CONVERSION RESULT");
             return AnimatedBuilder(
               animation: _mainController,
               builder: (context, child) {
@@ -250,16 +253,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   >(
                                                     builder: (context, state) {
                                                       return CurrencyConverterWidget(
-                                                        onPairChanged:
-                                                            (from, to) {
-                                                          context.read<CurrencyBloc>().add(CurrencyEvent.clearConversionData());
-                                                              currencyFromListener
-                                                                  .value = from
-                                                                  .toString();
-                                                              currencyToListener
-                                                                  .value = to
-                                                                  .toString();
-                                                            },
+                                                        onPairChanged: (from, to) {
+                                                          context
+                                                              .read<
+                                                                CurrencyBloc
+                                                              >()
+                                                              .add(
+                                                                CurrencyEvent.clearConversionData(),
+                                                              );
+                                                          currencyFromListener
+                                                              .value = from
+                                                              .toString();
+                                                          currencyToListener
+                                                              .value = to
+                                                              .toString();
+                                                        },
                                                       );
                                                     },
                                                   ),
@@ -286,13 +294,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 validator: (value) =>
                                                     validateAmount(
                                                       value,
-                                                      max: 100000,
+                                                      max: maxValue,
                                                     ),
                                               ),
                                             ),
                                           );
                                         },
                                       ),
+
                                       Gap(16.dp),
                                       AnimatedBuilder(
                                         animation: _staggerController,
@@ -316,33 +325,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               scale: _buttonScaleAnimation,
                                               child: ValueListenableBuilder(
                                                 valueListenable: amountListener,
-                                                builder:
-                                                    (
-                                                      context,
-                                                      amount,
-                                                      child,
-                                                    ) => PrimaryButton(
-                                                      isLoading: state.getConversionResultStatus is StatusLoading,
-                                                      onPressed: () {
-                                                        context
-                                                            .read<
-                                                              CurrencyBloc
-                                                            >()
-                                                            .add(
-                                                              CurrencyEvent.getConversionResult(
-                                                                from: from,
-                                                                to: to,
-                                                                amount: amount,
-                                                              ),
-                                                            );
-                                                      },
-                                                      icon: Image.asset(
-                                                        AppImages.convertIcon,
-                                                        height: 24.dp,
-                                                        color: Colors.white,
-                                                      ),
-                                                      title: 'Convert',
-                                                    ),
+                                                builder: (context, amount, child) => PrimaryButton(
+                                                  isLoading:
+                                                      state.getConversionResultStatus
+                                                          is StatusLoading,
+                                                  onPressed: () {
+                                                    if(from == to) {
+                                                      CustomToast.showToast(
+                                                        context: context,
+                                                        message:
+                                                            'Please select different currencies',
+                                                      );
+                                                      return;
+                                                    }
+                                                    if (amount < maxValue) {
+                                                      context.read<CurrencyBloc>().add(
+                                                        CurrencyEvent.getConversionResult(
+                                                          from:
+                                                              currencyFromListener
+                                                                  .value,
+                                                          to: currencyToListener
+                                                              .value,
+                                                          amount: amountListener
+                                                              .value,
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      CustomToast.showToast(
+                                                        context: context,
+                                                        message:
+                                                            'Please enter a valid amount',
+                                                      );
+                                                    }
+                                                  },
+                                                  icon: Image.asset(
+                                                    AppImages.convertIcon,
+                                                    height: 24.dp,
+                                                    color: Colors.white,
+                                                  ),
+                                                  title: 'Convert',
+                                                ),
                                               ),
                                             ),
                                           );
