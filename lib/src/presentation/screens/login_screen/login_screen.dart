@@ -172,6 +172,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           previous.loginStatus != current.loginStatus,
                       builder: (context, state) {
                         return PrimaryButton(
+                          isLoading: state.loginStatus is StatusLoading ||
+                              state.signUpStatus is StatusLoading,
                           onPressed: _handleButtonPress,
                           title: index == 0 ? 'Login' : 'Sign Up',
                         );

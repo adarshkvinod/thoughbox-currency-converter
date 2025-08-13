@@ -79,7 +79,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             style: TextStyle(fontSize: 18.dp, color: Colors.white),
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12.dp, vertical: 16.dp),
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
