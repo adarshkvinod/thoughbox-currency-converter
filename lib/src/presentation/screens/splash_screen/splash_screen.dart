@@ -1,8 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:page_animation_transition/animations/fade_animation_transition.dart';
+import 'package:page_animation_transition/animations/top_to_bottom_transition.dart';
+import 'package:page_animation_transition/page_animation_transition.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
 import 'package:thoughbox_currency_converter/app/router/route_constants.dart';
+
+import '../../../../app/router/fluid_reveal_route.dart';
+import '../home_screen/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () {
+      // Navigator.pushReplacementNamed(context, RouterConstants.loginRoute); // or '/home'
       Navigator.pushReplacementNamed(context, RouterConstants.homeRoute); // or '/home'
     });
   }

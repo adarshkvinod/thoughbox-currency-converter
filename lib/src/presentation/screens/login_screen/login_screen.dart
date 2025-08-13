@@ -5,7 +5,9 @@ import 'package:thoughbox_currency_converter/app/constants/status/status.dart';
 import 'package:thoughbox_currency_converter/app/router/route_constants.dart';
 import 'package:thoughbox_currency_converter/src/presentation/core/widgets/custom_toast.dart';
 
+import '../../../../app/router/fluid_reveal_route.dart';
 import '../../../application/auth_bloc/auth_bloc.dart';
+import '../home_screen/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -73,7 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
               BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
                   if(state.loginStatus is StatusSuccess){
-                    // CustomToast.showToast(context: context, message: '');
                     Navigator.pushReplacementNamed(context, RouterConstants.homeRoute);
                   } else if (state.loginStatus is StatusFailure) {
                     CustomToast.showToast(context: context, message: state.loginStatus.errorMessage);
