@@ -27,6 +27,8 @@ mixin _$ConversionResultModel {
   String get amount => throw _privateConstructorUsedError;
   Map<String, double> get result => throw _privateConstructorUsedError;
   int get ms => throw _privateConstructorUsedError;
+  bool get isCached => throw _privateConstructorUsedError;
+  int get cacheAgeInMinutes => throw _privateConstructorUsedError;
 
   /// Serializes this ConversionResultModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +47,14 @@ abstract class $ConversionResultModelCopyWith<$Res> {
     $Res Function(ConversionResultModel) then,
   ) = _$ConversionResultModelCopyWithImpl<$Res, ConversionResultModel>;
   @useResult
-  $Res call({String base, String amount, Map<String, double> result, int ms});
+  $Res call({
+    String base,
+    String amount,
+    Map<String, double> result,
+    int ms,
+    bool isCached,
+    int cacheAgeInMinutes,
+  });
 }
 
 /// @nodoc
@@ -70,6 +79,8 @@ class _$ConversionResultModelCopyWithImpl<
     Object? amount = null,
     Object? result = null,
     Object? ms = null,
+    Object? isCached = null,
+    Object? cacheAgeInMinutes = null,
   }) {
     return _then(
       _value.copyWith(
@@ -89,6 +100,14 @@ class _$ConversionResultModelCopyWithImpl<
                 ? _value.ms
                 : ms // ignore: cast_nullable_to_non_nullable
                       as int,
+            isCached: null == isCached
+                ? _value.isCached
+                : isCached // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            cacheAgeInMinutes: null == cacheAgeInMinutes
+                ? _value.cacheAgeInMinutes
+                : cacheAgeInMinutes // ignore: cast_nullable_to_non_nullable
+                      as int,
           )
           as $Val,
     );
@@ -104,7 +123,14 @@ abstract class _$$ConversionResultModelImplCopyWith<$Res>
   ) = __$$ConversionResultModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String base, String amount, Map<String, double> result, int ms});
+  $Res call({
+    String base,
+    String amount,
+    Map<String, double> result,
+    int ms,
+    bool isCached,
+    int cacheAgeInMinutes,
+  });
 }
 
 /// @nodoc
@@ -126,6 +152,8 @@ class __$$ConversionResultModelImplCopyWithImpl<$Res>
     Object? amount = null,
     Object? result = null,
     Object? ms = null,
+    Object? isCached = null,
+    Object? cacheAgeInMinutes = null,
   }) {
     return _then(
       _$ConversionResultModelImpl(
@@ -145,6 +173,14 @@ class __$$ConversionResultModelImplCopyWithImpl<$Res>
             ? _value.ms
             : ms // ignore: cast_nullable_to_non_nullable
                   as int,
+        isCached: null == isCached
+            ? _value.isCached
+            : isCached // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        cacheAgeInMinutes: null == cacheAgeInMinutes
+            ? _value.cacheAgeInMinutes
+            : cacheAgeInMinutes // ignore: cast_nullable_to_non_nullable
+                  as int,
       ),
     );
   }
@@ -158,6 +194,8 @@ class _$ConversionResultModelImpl implements _ConversionResultModel {
     this.amount = '0',
     final Map<String, double> result = const <String, double>{},
     this.ms = 0,
+    this.isCached = false,
+    this.cacheAgeInMinutes = 0,
   }) : _result = result;
 
   factory _$ConversionResultModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -181,10 +219,16 @@ class _$ConversionResultModelImpl implements _ConversionResultModel {
   @override
   @JsonKey()
   final int ms;
+  @override
+  @JsonKey()
+  final bool isCached;
+  @override
+  @JsonKey()
+  final int cacheAgeInMinutes;
 
   @override
   String toString() {
-    return 'ConversionResultModel(base: $base, amount: $amount, result: $result, ms: $ms)';
+    return 'ConversionResultModel(base: $base, amount: $amount, result: $result, ms: $ms, isCached: $isCached, cacheAgeInMinutes: $cacheAgeInMinutes)';
   }
 
   @override
@@ -195,7 +239,11 @@ class _$ConversionResultModelImpl implements _ConversionResultModel {
             (identical(other.base, base) || other.base == base) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             const DeepCollectionEquality().equals(other._result, _result) &&
-            (identical(other.ms, ms) || other.ms == ms));
+            (identical(other.ms, ms) || other.ms == ms) &&
+            (identical(other.isCached, isCached) ||
+                other.isCached == isCached) &&
+            (identical(other.cacheAgeInMinutes, cacheAgeInMinutes) ||
+                other.cacheAgeInMinutes == cacheAgeInMinutes));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -206,6 +254,8 @@ class _$ConversionResultModelImpl implements _ConversionResultModel {
     amount,
     const DeepCollectionEquality().hash(_result),
     ms,
+    isCached,
+    cacheAgeInMinutes,
   );
 
   /// Create a copy of ConversionResultModel
@@ -232,6 +282,8 @@ abstract class _ConversionResultModel implements ConversionResultModel {
     final String amount,
     final Map<String, double> result,
     final int ms,
+    final bool isCached,
+    final int cacheAgeInMinutes,
   }) = _$ConversionResultModelImpl;
 
   factory _ConversionResultModel.fromJson(Map<String, dynamic> json) =
@@ -245,6 +297,10 @@ abstract class _ConversionResultModel implements ConversionResultModel {
   Map<String, double> get result;
   @override
   int get ms;
+  @override
+  bool get isCached;
+  @override
+  int get cacheAgeInMinutes;
 
   /// Create a copy of ConversionResultModel
   /// with the given fields replaced by the non-null parameter values.

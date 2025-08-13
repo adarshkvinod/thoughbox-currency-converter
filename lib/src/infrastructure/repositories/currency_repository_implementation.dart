@@ -26,18 +26,33 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
       final fetchedAt = DateTime.parse(cached['fetchedAt'] as String);
       final diff = now.difference(fetchedAt);
 
+      final rate = cached['rate'] as double;
+
       if (diff.inMinutes < 5) {
-        final rate = cached['rate'] as double;
         return ConversionResultModel(
           base: from,
           amount: amount.toString(),
-          result: {to: rate * amount, 'rate': rate},
+          result: {
+            to: rate * amount,
+            'rate': rate,
+          },
           ms: 0,
+          isCached: true,
+          cacheAgeInMinutes: diff.inMinutes,
         );
       } else {
-        log(
-          'Cached rate older than 5 minutes for $from-$to',
-          name: 'CurrencyRepository',
+        log('Cached rate older than 5 minutes for $from-$to', name: 'CurrencyRepository');
+        // still return cached but with warning
+        return ConversionResultModel(
+          base: from,
+          amount: amount.toString(),
+          result: {
+            to: rate * amount,
+            'rate': rate,
+          },
+          ms: 0,
+          isCached: true,
+          cacheAgeInMinutes: diff.inMinutes,
         );
       }
     }
@@ -46,7 +61,7 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
       final queryParams = {
         'from': from,
         'to': to,
-        'amount': 1, // always 1 unit for rate calculation
+        'amount': 1,
         'access_key': ApiConstants.accessKey,
       };
 
@@ -59,14 +74,18 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
         final data = response.data as Map<String, dynamic>;
         final rate = data['result']['rate'] as double;
 
-        // Cache the rate
         await localStorage.setCachedRate(from: from, to: to, rate: rate);
 
         return ConversionResultModel(
           base: from,
           amount: amount.toString(),
-          result: {to: rate * amount, 'rate': rate},
+          result: {
+            to: rate * amount,
+            'rate': rate,
+          },
           ms: data['ms'] ?? 0,
+          isCached: false,
+          cacheAgeInMinutes: 0,
         );
       } else {
         throw Exception('API failed: ${response.statusMessage}');
@@ -77,16 +96,17 @@ class CurrencyRepositoryImplementation implements CurrencyRepository {
         final diff = now.difference(fetchedAt);
         if (diff.inMinutes <= 30) {
           final rate = cached['rate'] as double;
-          log(
-            'Using fallback cached rate for $from-$to',
-            name: 'CurrencyRepository',
-            stackTrace: stackTrace,
-          );
+          log('Using fallback cached rate for $from-$to', name: 'CurrencyRepository', stackTrace: stackTrace);
           return ConversionResultModel(
             base: from,
             amount: amount.toString(),
-            result: {to: rate * amount, 'rate': rate},
+            result: {
+              to: rate * amount,
+              'rate': rate,
+            },
             ms: 0,
+            isCached: true,
+            cacheAgeInMinutes: diff.inMinutes,
           );
         }
       }

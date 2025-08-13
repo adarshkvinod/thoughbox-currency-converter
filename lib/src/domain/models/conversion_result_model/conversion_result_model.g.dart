@@ -17,6 +17,8 @@ _$ConversionResultModelImpl _$$ConversionResultModelImplFromJson(
       ) ??
       const <String, double>{},
   ms: (json['ms'] as num?)?.toInt() ?? 0,
+  isCached: json['isCached'] as bool? ?? false,
+  cacheAgeInMinutes: (json['cacheAgeInMinutes'] as num?)?.toInt() ?? 0,
 );
 
 Map<String, dynamic> _$$ConversionResultModelImplToJson(
@@ -26,4 +28,6 @@ Map<String, dynamic> _$$ConversionResultModelImplToJson(
   'amount': instance.amount,
   'result': instance.result,
   'ms': instance.ms,
+  'isCached': instance.isCached,
+  'cacheAgeInMinutes': instance.cacheAgeInMinutes,
 };

@@ -9,6 +9,8 @@ class ConversionResultModel with _$ConversionResultModel {
     @Default('0') String amount,
     @Default(<String, double>{}) Map<String, double> result,
     @Default(0) int ms,
+    @Default(false) bool isCached,
+    @Default(0) int cacheAgeInMinutes,
   }) = _ConversionResultModel;
 
   factory ConversionResultModel.fromJson(Map<String, dynamic> json) =>
