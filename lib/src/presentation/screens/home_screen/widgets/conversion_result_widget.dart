@@ -190,6 +190,18 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
         ),
       );
     }
+    if (state.getConversionResultStatus is StatusFailure &&
+        state.conversionResult.result.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.all(24.dp),
+          child: Text(
+            "Unable to fetch data. Please try again later.",
+            style: AppTypography.bodyText.copyWith(color: AppColors.errorColor),
+          ),
+        ),
+      );
+    }
 
     // Default placeholder
     return Padding(
@@ -236,7 +248,7 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
                     state.conversionResult.result.isEmpty) {
                   return Center(
                     child: Padding(
-                      padding:  EdgeInsets.all(24.dp),
+                      padding: EdgeInsets.all(24.dp),
                       child: Text(
                         "No internet connection",
                         style: AppTypography.bodyText.copyWith(
