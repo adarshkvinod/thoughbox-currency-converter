@@ -10,6 +10,7 @@ import 'package:thoughbox_currency_converter/src/presentation/core/constants/app
 import 'package:thoughbox_currency_converter/src/presentation/core/constants/app_typography.dart';
 
 import '../../../../application/currency_bloc/currency_bloc.dart';
+import '../../../../application/network_bloc/network_bloc.dart';
 import '../../../core/constants/app_images.dart';
 import '../../../core/utils/utils.dart';
 
@@ -122,46 +123,47 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
         child: Column(
           children: [
             Gap(16.dp),
-            if(isOldResult)
-            ...[Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.dp),
-                    border: Border.all(
-                      color: isOldResult
-                          ? AppColors.errorColor
-                          : AppColors.primaryColor,
+            if (isOldResult) ...[
+              Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.dp),
+                      border: Border.all(
+                        color: isOldResult
+                            ? AppColors.errorColor
+                            : AppColors.primaryColor,
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.dp,
+                      vertical: 4.dp,
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 8.dp,
+                          width: 8.dp,
+                          decoration: BoxDecoration(
+                            color: AppColors.errorColor,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        Gap(6.dp),
+                        Text(
+                          "Rate updated $cacheAge minutes ago",
+                          style: AppTypography.heading2.copyWith(
+                            fontSize: 12.sp,
+                            color: AppColors.errorColor,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.dp,
-                    vertical: 4.dp,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 8.dp,
-                        width: 8.dp,
-                        decoration: BoxDecoration(
-                          color:AppColors.errorColor,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      Gap(6.dp),
-                      Text( "Rate updated $cacheAge minutes ago",
-                        style: AppTypography.heading2.copyWith(
-                          fontSize: 12.sp,
-                          color:AppColors.errorColor,
-
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Gap(8.dp),],
+                ],
+              ),
+              Gap(8.dp),
+            ],
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -228,7 +230,25 @@ class _ConversionResultWidgetState extends State<ConversionResultWidget>
               borderRadius: BorderRadius.circular(16.dp),
               border: Border.all(color: AppColors.borderColor),
             ),
-            child: _buildContent(state),
+            child: BlocBuilder<NetworkBloc, NetworkState>(
+              builder: (context, networkState) {
+                if (networkState == NetworkState.failure() &&
+                    state.conversionResult.result.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding:  EdgeInsets.all(24.dp),
+                      child: Text(
+                        "No internet connection",
+                        style: AppTypography.bodyText.copyWith(
+                          color: AppColors.errorColor,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return _buildContent(state);
+              },
+            ),
           ),
         );
       },

@@ -189,10 +189,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading)
+    if (_isLoading) {
       return Scaffold(
         body: ScreenBackground(child: Center(child: _buildLoadingIndicator())),
       );
+    }
 
     return Scaffold(
       body: ScreenBackground(

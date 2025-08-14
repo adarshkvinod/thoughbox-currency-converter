@@ -19,11 +19,10 @@ class CurrencyConverterWidget extends StatefulWidget {
   });
 
   @override
-  _CurrencyConverterWidgetState createState() =>
-      _CurrencyConverterWidgetState();
+  CurrencyConverterWidgetState createState() => CurrencyConverterWidgetState();
 }
 
-class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
+class CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
     with TickerProviderStateMixin {
   // final List<Map<String, String>> countries = [
   //   {'flag': '🇺🇸', 'code': 'USD'}, // United States Dollar
@@ -240,17 +239,27 @@ class _CurrencyConverterWidgetState extends State<CurrencyConverterWidget>
         padding: EdgeInsets.zero,
         children: AppConstants.countries.map((country) {
           final isSelected = country == selected;
-          return ListTile(
-            leading: Text(country['flag']!, style: TextStyle(fontSize: 18.sp)),
-            title: Text(
-              country['code']!,
-              style: TextStyle(
-                fontSize: 16.dp,
-                color: isSelected ? Colors.blueAccent : Colors.white,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          return GestureDetector(
+            onTap: () => onSelected(country),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.dp, horizontal: 12.dp),
+              child: Row(
+                children: [
+                  Text(country['flag']!, style: TextStyle(fontSize: 18.sp)),
+                  Gap(8.dp),
+                  Text(
+                    country['code']!,
+                    style: TextStyle(
+                      fontSize: 18.dp,
+                      color: isSelected ? AppColors.primaryColor : Colors.white,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                  ),
+                ],
               ),
             ),
-            onTap: () => onSelected(country),
           );
         }).toList(),
       ),
