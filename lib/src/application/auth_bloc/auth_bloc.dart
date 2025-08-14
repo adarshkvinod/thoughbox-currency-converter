@@ -91,8 +91,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> _logoutEvent(_Logout event, Emitter<AuthState> emit) async {
     try {
+      emit(state.copyWith(logoutStatus: Status.loading()));
       await _firebaseAuth.signOut();
       emit(AuthState.initial());
+      emit(state.copyWith(logoutStatus: Status.success()));
     } catch (e) {
       emit(state.copyWith(loginStatus: Status.failure("Logout failed: $e")));
     }

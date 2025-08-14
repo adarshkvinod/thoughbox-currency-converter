@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:the_responsive_builder/the_responsive_builder.dart';
@@ -14,6 +15,7 @@ import 'package:thoughbox_currency_converter/src/presentation/screens/home_scree
 import 'package:thoughbox_currency_converter/src/presentation/screens/home_screen/widgets/currency_converter_widget.dart';
 import '../../../../app/router/custom_route_animation.dart';
 import '../../../application/currency_bloc/currency_bloc.dart';
+import '../../core/widgets/confirmation_dialogue.dart';
 import '../statistics_screen/statisticts_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -196,51 +198,68 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
 
     return Scaffold(
-      body: ScreenBackground(
-        onTapTrailingIcon: () {
-          Navigator.push(
-            context,
-            FluidStackRoute(
-              child: const StatisticsScreen(),
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeInOutCubic,
+      body: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          showDialog(
+            context: context,
+            builder: (context) => ConfirmationDialog(
+              title: "Exit?",
+              message: "Are you sure you want to exit?",
+              confirmText: "Exit",
+              cancelText: "Cancel",
+              onConfirm: () {
+                SystemNavigator.pop();
+              },
             ),
           );
         },
-        child: BlocBuilder<CurrencyBloc, CurrencyState>(
-          builder: (context, state) {
-            log(state.conversionResult.toString(), name: "CONVERSION RESULT");
+        child: ScreenBackground(
+          onTapTrailingIcon: () {
+            Navigator.push(
+              context,
+              FluidStackRoute(
+                child: const StatisticsScreen(),
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOutCubic,
+              ),
+            );
+          },
+          child: BlocBuilder<CurrencyBloc, CurrencyState>(
+            builder: (context, state) {
+              log(state.conversionResult.toString(), name: "CONVERSION RESULT");
 
-            return FadeSlideScaleTransition(
-              fade: _fadeAnimation,
-              slide: _slideAnimation,
-              scale: _scaleAnimation,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.dp),
-                child: SingleChildScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: 86.h),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        children: [
-                          Gap(24.dp),
-                          _buildCurrencyConverter(),
-                          Gap(24.dp),
-                          _buildAmountTextField(),
-                          Gap(16.dp),
-                          _buildConversionResult(),
-                          const Spacer(),
-                          _buildConvertButton(state),
-                          Gap(24.dp),
-                        ],
+              return FadeSlideScaleTransition(
+                fade: _fadeAnimation,
+                slide: _slideAnimation,
+                scale: _scaleAnimation,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.dp),
+                  child: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: 86.h),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          children: [
+                            Gap(24.dp),
+                            _buildCurrencyConverter(),
+                            Gap(24.dp),
+                            _buildAmountTextField(),
+                            Gap(16.dp),
+                            _buildConversionResult(),
+                            const Spacer(),
+                            _buildConvertButton(state),
+                            Gap(24.dp),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
