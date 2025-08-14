@@ -14,54 +14,87 @@ part 'auth_bloc.freezed.dart';
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   AuthBloc() : super(AuthState.initial()) {
     on<_Login>(_loginEvent);
     on<_SignUp>(_signUpEvent);
+    on<_CheckAuth>(_checkAuthEvent);
+    on<_Logout>(_logoutEvent);
   }
 
   Future<void> _loginEvent(_Login event, Emitter<AuthState> emit) async {
     try {
-      emit(state.copyWith(loginStatus: Status.loading(),));
-      await _firebaseAuth.signInWithEmailAndPassword(
-        email: event.email.trim(),
-        password: event.password.trim(),
-      );
-      emit(state.copyWith(loginStatus: Status.success()));
+      emit(state.copyWith(loginStatus: Status.loading()));
+      UserCredential userCredential = await _firebaseAuth
+          .signInWithEmailAndPassword(
+            email: event.email.trim(),
+            password: event.password.trim(),
+          );
+
+      final uid = userCredential.user?.uid;
+
+      emit(state.copyWith(loginStatus: Status.success(), userId: uid ?? ""));
     } on FirebaseAuthException catch (e) {
-      emit(
-        state.copyWith(
-          loginStatus: Status.failure(e.toString()),
-        ),
-      );
+      emit(state.copyWith(loginStatus: Status.failure(e.toString())));
     } catch (e) {
-      emit(
-        state.copyWith(
-          loginStatus: Status.failure(e.toString()),
-        ),
-      );
+      emit(state.copyWith(loginStatus: Status.failure(e.toString())));
     }
   }
 
-  FutureOr<void> _signUpEvent(_SignUp event, Emitter<AuthState> emit) async{
+  FutureOr<void> _signUpEvent(_SignUp event, Emitter<AuthState> emit) async {
     try {
       emit(state.copyWith(signUpStatus: Status.loading()));
-      await _firebaseAuth.createUserWithEmailAndPassword(
-        email: event.email.trim(),
-        password: event.password.trim(),
-      );
-      emit(state.copyWith(signUpStatus: Status.success()));
+      UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(
+            email: event.email.trim(),
+            password: event.password.trim(),
+          );
+
+      final uid = userCredential.user?.uid;
+
+      emit(state.copyWith(signUpStatus: Status.success(), userId: uid ?? ""));
     } on FirebaseAuthException catch (e) {
-      emit(
-        state.copyWith(
-          signUpStatus: Status.failure(e.toString()),
-        ),
-      );
+      emit(state.copyWith(signUpStatus: Status.failure(e.toString())));
     } catch (e) {
-      emit(
-        state.copyWith(
-          signUpStatus: Status.failure(e.toString()),
-        ),
-      );
+      emit(state.copyWith(signUpStatus: Status.failure(e.toString())));
+    }
+  }
+
+  FutureOr<void> _checkAuthEvent(
+    _CheckAuth event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(checkAuthStatus: Status.loading()));
+
+      final currentUser = _firebaseAuth.currentUser;
+
+      if (currentUser != null) {
+        emit(
+          state.copyWith(
+            checkAuthStatus: Status.success(),
+            userId: currentUser.uid,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            checkAuthStatus: Status.failure("No user logged in"),
+            userId: "",
+          ),
+        );
+      }
+    } catch (e) {
+      emit(state.copyWith(checkAuthStatus: Status.failure(e.toString())));
+    }
+  }
+
+  FutureOr<void> _logoutEvent(_Logout event, Emitter<AuthState> emit) async {
+    try {
+      await _firebaseAuth.signOut();
+      emit(AuthState.initial());
+    } catch (e) {
+      emit(state.copyWith(loginStatus: Status.failure("Logout failed: $e")));
     }
   }
 }
